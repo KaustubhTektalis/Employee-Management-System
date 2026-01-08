@@ -3,75 +3,79 @@ package service;
 import java.util.Scanner;
 
 import customExceptions.EmployeeNotFoundException;
+import customExceptions.IdFormatWrongException;
 import model.Employee;
 import util.PasswordHasher;
 
 public class AccessAndPasswordMethods {
 
-    private static String loggedInID = null;
+	private static String loggedInID = null;
 
-    public static boolean acc(Manage ops, String empID, String pass) {
+	public static boolean acc(Manage ops, String empID, String pass) {
 
-        String hashedPass = PasswordHasher.hash(pass);
+		String hashedPass = PasswordHasher.hash(pass);
 
-        for (Employee e : ops.getEmployees()) {
-            if (e.getId().equals(empID)
-                    && e.getPassword().equals(hashedPass)) {
+		for (Employee e : ops.getEmployees()) {
+			if (e.getId().equals(empID) && e.getPassword().equals(hashedPass)) {
 
-                loggedInID = empID;
-                return true;
-            }
-        }
-        return false;
-    }
+				loggedInID = empID;
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public static void updatePassword(Manage ops, Scanner sc)
-            throws EmployeeNotFoundException {
+	private static void validateId(String id) throws IdFormatWrongException {
+		if (id == null || !id.matches("^TT\\d{5}$")) {
+			throw new IdFormatWrongException("Invalid employee ID format");
+		}
+	}
 
-        System.out.print("Enter new password: ");
-        String p1 = sc.nextLine().trim();
+	public static void updatePassword(Manage ops, Scanner sc) throws EmployeeNotFoundException {
 
-        System.out.print("Re-enter new password: ");
-        String p2 = sc.nextLine().trim();
+		System.out.print("Enter new password: ");
+		String p1 = sc.nextLine().trim();
 
-        if (!p1.equals(p2)) {
-            System.out.println("Passwords do not match.");
-            return;
-        }
+		System.out.print("Re-enter new password: ");
+		String p2 = sc.nextLine().trim();
 
-        ops.updatePassword(loggedInID, p1);
-    }
+		if (!p1.equals(p2)) {
+			System.out.println("Passwords do not match.");
+			return;
+		}
 
-    public static void resetPassword(Manage ops, Scanner sc)
-            throws EmployeeNotFoundException {
+		ops.updatePassword(loggedInID, p1);
+	}
 
-        String defaultPass = Manage.defaultPassword();
+	public static void resetPassword(Manage ops, Scanner sc) throws EmployeeNotFoundException, IdFormatWrongException {
 
-        System.out.println("Enter 1 to Reset Your Password");
-        System.out.println("Enter 2 to Reset someone else's password");
-        System.out.print("Your choice: ");
+		String defaultPass = Manage.defaultPassword();
 
-        int choice = sc.nextInt();
-        sc.nextLine();
+		System.out.println("Enter 1 to Reset Your Password");
+		System.out.println("Enter 2 to Reset someone else's password");
+		System.out.print("Your choice: ");
 
-        switch (choice) {
-            case 1 -> {
-                ops.updatePassword(loggedInID, defaultPass);
-                System.out.println("The Default password is 'Default123'");
-            }
-            case 2 -> {
-                System.out.print("ID of the employee: ");
-                String selectedID = sc.nextLine();
+		int choice = sc.nextInt();
+		sc.nextLine();
 
-                ops.updatePassword(selectedID, defaultPass);
-                System.out.println("The Default password is 'Default123'");
-            }
-            default -> System.out.println("Invalid choice");
-        }
-    }
+		switch (choice) {
+		case 1 -> {
+			ops.updatePassword(loggedInID, defaultPass);
+			System.out.println("The Default password is 'Default123'");
+		}
+		case 2 -> {
+			System.out.print("ID of the employee: ");
+			String selectedID = sc.nextLine();
+			validateId(selectedID);
 
+			ops.updatePassword(selectedID, defaultPass);
+			System.out.println("The Default password is 'Default123'");
+		}
+		default -> System.out.println("Invalid choice");
+		}
+	}
 
-    public static String getLoggedInAdminId() {
-        return loggedInID;
-    }
+	public static String getLoggedInAdminId() {
+		return loggedInID;
+	}
 }

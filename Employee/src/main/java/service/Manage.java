@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import customExceptions.EmployeeNotFoundException;
+import customExceptions.IdFormatWrongException;
 import customExceptions.InvalidDataException;
 import dao.EmployeeRepository;
 import model.Employee;
@@ -23,6 +24,11 @@ public class Manage {
 
     public List<Employee> getEmployees() {
         return repository.findAll();
+    }
+    private void validateId(String id) throws IdFormatWrongException {
+        if (id == null || !id.matches("^TT\\d{5}$")) {
+            throw new IdFormatWrongException("Invalid employee ID format");
+        }
     }
 
     public void add(String name, String mail, String address,
@@ -48,11 +54,13 @@ public class Manage {
         repository.save(emp);
     }
 
-    public void delete(String id) throws EmployeeNotFoundException {
+    public void delete(String id) throws EmployeeNotFoundException , IdFormatWrongException{
+    	 validateId(id);
 
         Employee emp = repository.findById(id);
         if (emp == null)
             throw new EmployeeNotFoundException("Employee not found");
+        
 
         repository.delete(emp);
     }
@@ -76,32 +84,37 @@ public class Manage {
     }
 
     public void updateName(String id, String name)
-            throws EmployeeNotFoundException {
+            throws EmployeeNotFoundException , IdFormatWrongException{
 
+    	 validateId(id);
         getExisting(id).setName(name);
     }
 
     public void updateMail(String id, String mail)
-            throws EmployeeNotFoundException {
+            throws EmployeeNotFoundException , IdFormatWrongException{
+    	 validateId(id);
 
         getExisting(id).setMail(mail);
     }
 
     public void updateAddress(String id, String address)
-            throws EmployeeNotFoundException {
+            throws EmployeeNotFoundException, IdFormatWrongException {
+    	 validateId(id);
 
         getExisting(id).setAddress(address);
     }
 
     public void updateDepartment(String id, String department)
-            throws EmployeeNotFoundException {
+            throws EmployeeNotFoundException, IdFormatWrongException {
+    	 validateId(id);
 
         getExisting(id).setDepartment(department);
     }
 
 
     public void addRole(String id, String role)
-            throws EmployeeNotFoundException {
+            throws EmployeeNotFoundException , IdFormatWrongException{
+    	 validateId(id);
 
         Employee emp = getExisting(id);
 
@@ -111,16 +124,16 @@ public class Manage {
     }
 
     public void revokeRole(String id, String role)
-            throws EmployeeNotFoundException {
-
+            throws EmployeeNotFoundException, IdFormatWrongException {
+    	 validateId(id);
+    	
         getExisting(id).getRole().remove(role);
     }
     
     public void updatePassword(String id, String newPassword)
             throws EmployeeNotFoundException {
 
-        getExisting(id)
-                .setPassword(PasswordHasher.hash(newPassword));
+        getExisting(id).setPassword(PasswordHasher.hash(newPassword));
     }
 
     public static String defaultPassword() {
@@ -137,7 +150,8 @@ public class Manage {
         return emp;
     }
 
-    public boolean employeeExists(String id) {
+    public boolean employeeExists(String id) throws IdFormatWrongException {
+    	 validateId(id);
         return repository.findById(id) != null;
     }
 

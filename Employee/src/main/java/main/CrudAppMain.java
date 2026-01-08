@@ -15,13 +15,13 @@ import service.Manage;
 
 public class CrudAppMain {
 
-//    private static final String FILE_PATH = "employees_data.json";
+    private static final String FILE_PATH = "employees_data.json";
 
     public static void main(String[] args) {
     	
-    	if(args.length==0) {
-    		return;
-    	}
+//    	if(args.length==0) {
+//    		return;
+//    	}
 
         Scanner sc = new Scanner(System.in);
 
@@ -29,7 +29,7 @@ public class CrudAppMain {
         Manage ops = new Manage(repository);
 
         ObjectMapper mapper = new ObjectMapper();
-        File file = new File(args[0]);
+        File file = new File(FILE_PATH);
 
         try {
 
