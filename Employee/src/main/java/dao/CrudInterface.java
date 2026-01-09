@@ -2,13 +2,15 @@ package dao;
 
 //import manager.Manage;
 import java.util.ArrayList;
+import java.util.List;
 
 import customExceptions.EmployeeNotFoundException;
 import customExceptions.IdFormatWrongException;
 import customExceptions.InvalidDataException;
+import model.Employee;
 
 public interface CrudInterface {
-	void add(String name, String mail, String address, String department, ArrayList<String> role, String password)
+	Employee add(String name, String mail, String address, String department, ArrayList<String> role, String password)
 			throws InvalidDataException;
 
 	void delete(String id) throws EmployeeNotFoundException, IdFormatWrongException;
@@ -21,15 +23,14 @@ public interface CrudInterface {
 
 	void updateDepartment(String id, String department) throws EmployeeNotFoundException, IdFormatWrongException;
 
-	void updateRole(String id, ArrayList<String> role) throws EmployeeNotFoundException, IdFormatWrongException;
+	void addRole(String id, String role) throws EmployeeNotFoundException, IdFormatWrongException;
 
-	void updatePassword(String loggedInid, String password);
+	void revokeRole(String id, String role) throws EmployeeNotFoundException, IdFormatWrongException;
 
-	void resetPassword(String id, String mail, String pass) throws EmployeeNotFoundException, IdFormatWrongException;;
+	void updatePassword(String loggedInid, String password)
+			throws InvalidDataException,IdFormatWrongException, EmployeeNotFoundException ;
 
-	void resetPassword(String id, String pass);
+	List<Employee> showAll() throws EmployeeNotFoundException, IdFormatWrongException;
 
-	void showAll() throws EmployeeNotFoundException, IdFormatWrongException;
-
-	void showOne(String id) throws EmployeeNotFoundException, IdFormatWrongException;
+	Employee showOne(String id) throws EmployeeNotFoundException, IdFormatWrongException;
 }

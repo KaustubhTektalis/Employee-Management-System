@@ -11,8 +11,8 @@ public class Employee {
 	private ArrayList<String> role;
 	private String password;
 
-	public Employee(String id, String name, String mail, String address, String department,
-			ArrayList<String> role, String password) {
+	public Employee(String id, String name, String mail, String address, String department, ArrayList<String> role,
+			String password) {
 		this.id = id;
 		this.name = name;
 		this.mail = mail;
