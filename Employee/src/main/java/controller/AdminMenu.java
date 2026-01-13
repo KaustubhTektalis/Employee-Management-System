@@ -57,7 +57,6 @@ public class AdminMenu {
 					break;
 
 				case SELF_DETAILS:
-//					System.out.println(ops.showOne(PasswordMethods.getLoggedInId()));
 					System.out.println(ops.showSelf(PasswordMethods.getLoggedInId()));
 					break;
 

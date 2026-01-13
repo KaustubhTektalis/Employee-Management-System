@@ -47,10 +47,10 @@ public class Create {
 			Employee newEmployee = ops.add(name, mail, address, department, role, randomPasswordForNew);
 			SaveEmployeesToFile.saveToJson(ops, mapper, file);
 			System.out.println("New user added!");
+			System.out.println(ops.showOne(newEmployee.getId()));
 			System.out.println(
 					"The password for new user " + newEmployee.getId() + "to login is: " + randomPasswordForNew);
 
-//			ops.showAll().forEach(System.out::println);
 
 		} catch (InvalidDataException | IllegalArgumentException e) {
 			System.out.println(e.getMessage());
@@ -84,6 +84,7 @@ public class Create {
 	        PasswordTableDB.insertPassword(conn,empId,password);
 
 	        System.out.println("New user added!");
+			System.out.println(ops.showOne(empId));
 	        System.out.println("The password for new user " + empId + " to login is: " + password);
 	        
 		} catch (Exception e) {
