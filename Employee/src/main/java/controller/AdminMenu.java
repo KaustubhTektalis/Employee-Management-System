@@ -1,10 +1,14 @@
 package controller;
 
 import java.io.File;
+
 import java.util.Scanner;
 
+import java.sql.Connection;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dao.CrudOps;
+
+import dao.CrudImplementation;
 import dao.SaveEmployeesToFile;
 import enums.AdminChoices;
 import service.Create;
@@ -15,7 +19,7 @@ import service.Update;
 public class AdminMenu {
 	private AdminMenu() {}
 
-	public static void showMenu(CrudOps ops, Scanner sc, ObjectMapper mapper, File file) {
+	public static void showMenu(CrudImplementation ops, Scanner sc, ObjectMapper mapper, File file) {
 
 		AdminChoices choice = null;
 
@@ -53,7 +57,8 @@ public class AdminMenu {
 					break;
 
 				case SELF_DETAILS:
-					System.out.println(ops.showOne(PasswordMethods.getLoggedInId()));
+//					System.out.println(ops.showOne(PasswordMethods.getLoggedInId()));
+					System.out.println(ops.showSelf(PasswordMethods.getLoggedInId()));
 					break;
 
 				case CHANGE_PASSWORD:
@@ -81,4 +86,76 @@ public class AdminMenu {
 
 		} while (choice != AdminChoices.EXIT);
 	}
+	
+//	---------------------------------------------------------------------------------------------------------
+	
+	
+	public static void showDBMenu(CrudImplementation ops, Scanner sc, Connection conn) {
+
+		AdminChoices choice = null;
+
+		do {
+			System.out.println("\n--- ADMIN MENU ---");
+			for (AdminChoices c : AdminChoices.values()) {
+				System.out.println(c);
+			}
+			System.out.print("Your choice: ");
+
+			try {
+				choice = AdminChoices.valueOf(sc.nextLine().trim().toUpperCase());
+			} catch (IllegalArgumentException e) {
+				System.out.println("Invalid choice.");
+				continue;
+			}
+
+			try {
+				switch (choice) {
+
+				case ADD:
+					Create.handleAddDB(ops, sc, conn);
+					break;
+
+				case UPDATE:
+//					String id = PasswordMethods.getLoggedInId();
+					Update.handleUpdateDB(ops, sc, conn);
+					break;
+
+				case DELETE:
+//					String id = PasswordMethods.getLoggedInId();
+					Delete.handleDeleteDB(ops, sc, conn);
+					break;
+
+				case SHOW_ALL:
+					ops.showAll().forEach(System.out::println);
+					break;
+
+				case SELF_DETAILS:
+//					System.out.println(ops.showOne(PasswordMethods.getLoggedInId()));
+					System.out.println(ops.showSelf(PasswordMethods.getLoggedInId()));
+					break;
+
+				case CHANGE_PASSWORD:
+					PasswordMethods.updatePassword(ops, sc);
+					break;
+
+				case RESET_PASSWORD:
+					PasswordMethods.resetPassword(ops, sc);
+					break;
+
+				case EXIT:
+					System.out.println("Admin logged out.");
+					break;
+
+				default:
+					break;
+				}
+
+			} catch (Exception e) {
+				System.out.println("Operation failed: " + e.getMessage());
+			}
+
+		} while (choice != AdminChoices.EXIT);
+	}
+	
+	
 }

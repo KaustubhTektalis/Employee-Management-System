@@ -1,27 +1,60 @@
 package controller;
 
 import java.io.File;
+import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import dao.CrudOps;
+import dao.CrudImplementation;
 import dao.EmployeeListOps;
+import enums.ChooseBackend;
 import model.Employee;
 import service.PasswordMethods;
 import service.LoginAndAccess;
 
 public class MainMenu {
 	private static final String FILE_PATH = "employees_data.json";
+	static Scanner sc = new Scanner(System.in);
 
 	public static void Menu() {
+		ChooseBackend ch = null;
+		for (ChooseBackend c : ChooseBackend.values()) {
+			System.out.println(c);
+		}
+		System.out.println("Your choice: ");
+		try {
+			ch = ChooseBackend.valueOf(sc.nextLine().trim().toUpperCase());
 
-		Scanner sc = new Scanner(System.in);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Invalid choice.");
+		}
+		try {
+			switch (ch) {
+			case FILE:
+				FileMenu();
+				break;
 
-		EmployeeListOps repository = new EmployeeListOps();
-		CrudOps ops = new CrudOps(repository);
+			case DB:
+				DBMenu();
+				break;
+
+			default:
+				System.out.println("Select correct option");
+				break;
+
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+
+		}
+	}
+
+	public static void FileMenu() {
+
+		CrudImplementation ops = new CrudImplementation(ChooseBackend.FILE, null);
 
 		ObjectMapper mapper = new ObjectMapper();
 		File file = new File(FILE_PATH);
@@ -34,16 +67,16 @@ public class MainMenu {
 				EmployeeListOps.setEmployees(list);
 			}
 
-			LoginAndAccess.authenticate(ops, sc);
+			LoginAndAccess.authenticateInFile(ops, sc);
 
-			String loggedInId = PasswordMethods.getLoggedInId();
+//			String loggedInId = PasswordMethods.getLoggedInId();
 
-			Employee loggedInEmployee = ops.showOne(loggedInId);
+//			Employee loggedInEmployee = ops.showOne(loggedInId);
 
-			if (loggedInEmployee.getRole().contains("Admin")) {
+			if (PasswordMethods.hasRole("Admin")) {
 				AdminMenu.showMenu(ops, sc, mapper, file);
 
-			} else if (loggedInEmployee.getRole().contains("Manager")) {
+			} else if (PasswordMethods.hasRole("Manager")) {
 				ManagerMenu.showMenu(ops, sc, mapper, file);
 
 			} else {
@@ -52,9 +85,34 @@ public class MainMenu {
 
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
+		}
+	}
 
-		} finally {
-			sc.close();
+	public static void DBMenu() {
+
+		MakeConnection db = new MakeConnection();
+		Connection conn = db.connect_to_db("crudoperations", "postgres", "pass");
+
+		if (conn == null) {
+			System.out.println("Database connection failed.");
+			return;
+		}
+		CrudImplementation ops = new CrudImplementation(ChooseBackend.DB, conn);
+
+		try {
+
+			LoginAndAccess.authenticateInDB(conn, sc);
+
+			if (PasswordMethods.hasRole("Admin")) {
+				AdminMenu.showDBMenu(ops, sc, conn);
+			} else if (PasswordMethods.hasRole("Manager")) {
+				ManagerMenu.showDBMenu(ops, sc, conn);
+			} else {
+				EmployeeMenu.showDBMenu(ops, sc);
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
 		}
 	}
 }

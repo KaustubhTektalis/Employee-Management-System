@@ -77,9 +77,19 @@ public class Employee {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	 
 	public String toString() {
-		return "Details: Id: " + id + " Name: " + name + " Mail:" + mail + " Address:" + address + " Department:"
-				+ department + " Role:" + role;
+	    String details = "Details: Id: " + id
+	                   + " Name: " + name
+	                   + " Mail:" + mail
+	                   + " Address:" + address
+	                   + " Department:" + department;
+
+	    if (role != null && !role.isEmpty()) {
+	        details += " Role:" + role;
+	    }
+
+	    return details;
 	}
+
 }

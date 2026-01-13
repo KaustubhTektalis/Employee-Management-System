@@ -20,7 +20,7 @@ public class EmployeeListOps {
 		return new ArrayList<>(employees);
 	}
 
-	public Employee findById(String id) {
+	public static Employee findById(String id) {
 		for (Employee e : employees) {
 			if (e.getId().equals(id)) {
 				return e;
@@ -29,11 +29,11 @@ public class EmployeeListOps {
 		return null;
 	}
 
-	public void save(Employee employee) {
+	public static void save(Employee employee) {
 		employees.add(employee);
 	}
 
-	public void delete(Employee employee) {
+	public static void delete(Employee employee) {
 		employees.remove(employee);
 	}
 

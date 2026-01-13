@@ -1,10 +1,10 @@
 [ {
   "id" : "TT25001",
   "name" : "kaus",
-  "mail" : "jlkaustubh@gmail.com",
-  "address" : "hyderabad",
+  "mail" : "hehe@gmail.com",
+  "address" : "hyd",
   "department" : "dev",
-  "role" : [ "Admin", "Employee" ],
+  "role" : [ "Admin", "Employee", "ADMIN" ],
   "password" : "9bd69fde2a547907a18827beae53aecafe01671ca2d8c22ce720c8ca4ece8d0f"
 }, {
   "id" : "TT25003",
@@ -39,14 +39,6 @@
   "role" : [ "Admin" ],
   "password" : "d35752e39971d74d0809d0a08811a0e2611ae44da360cebe264ba1c1d833e8da"
 }, {
-  "id" : "TT25007",
-  "name" : "Tharun",
-  "mail" : "tharunreddy@gmail.com",
-  "address" : "hyderabad",
-  "department" : "dev",
-  "role" : [ "Manager" ],
-  "password" : "d35752e39971d74d0809d0a08811a0e2611ae44da360cebe264ba1c1d833e8da"
-}, {
   "id" : "TT26008",
   "name" : "Rohith",
   "mail" : "ROHITHHHH@GMAIL.COM",
@@ -78,4 +70,12 @@
   "department" : "dev",
   "role" : [ "Admin" ],
   "password" : "832b930823ef2b716546e96897c9b2ab90a3f490a86e0614fb264cf0cb9b18e9"
+}, {
+  "id" : "TT26012",
+  "name" : "rinee",
+  "mail" : "rineesha@gmail.com",
+  "address" : "hyd",
+  "department" : "dev",
+  "role" : [ "Admin" ],
+  "password" : "c1d440403ecb32b77647e3697e5da8d7cd2d40237bb137eadc2f701bc3cdb28c"
 } ]
