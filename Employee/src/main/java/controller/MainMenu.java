@@ -69,10 +69,6 @@ public class MainMenu {
 
 			LoginAndAccess.authenticateInFile(ops, sc);
 
-//			String loggedInId = PasswordMethods.getLoggedInId();
-
-//			Employee loggedInEmployee = ops.showOne(loggedInId);
-
 			if (PasswordMethods.hasRole("Admin")) {
 				AdminMenu.showMenu(ops, sc, mapper, file);
 

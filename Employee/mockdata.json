@@ -1,0 +1,17 @@
+[  {
+  "id" : "TT26001",
+  "name" : "Charlie",
+  "mail" : "charlie@gmail.com",
+  "address" : "SF",
+  "department" : "HR",
+  "role" : [ "Admin" ],
+  "password" : "3=$Zw(Tq#FuW"
+}, {
+  "id" : "TT26002",
+  "name" : "Rineesha",
+  "mail" : "rin@gmail.com",
+  "address" : "hyd",
+  "department" : "Admin",
+  "role" : [ "Admin", "Manager" ],
+  "password" : "fPEpGiXxe3N#"
+} ]
