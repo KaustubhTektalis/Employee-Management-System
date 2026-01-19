@@ -51,7 +51,6 @@ public class PasswordMethods {
 		if (plainPassword == null) {
 			throw new IllegalArgumentException("Password cannot be null");
 		}
-//		return Hashing.sha256().hashString(plainPassword, StandardCharsets.UTF_8).toString();
 		return BCrypt.hashpw(plainPassword, BCrypt.gensalt(12));
 	}
 
