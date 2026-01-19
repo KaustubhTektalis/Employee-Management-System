@@ -50,11 +50,11 @@ public class ManagerMenu {
 
 				case CHANGE_PASSWORD:
 					PasswordMethods.updatePassword(ops, sc);
-					SaveEmployeesToFile.saveToJson(ops, mapper, file);
+					SaveEmployeesToFile.saveToJson( mapper, file);
 					break;
 
 				case EXIT:
-					SaveEmployeesToFile.saveToJson(ops, mapper, file);
+					SaveEmployeesToFile.saveToJson( mapper, file);
 					System.out.println("Manager logged out.");
 					break;
 

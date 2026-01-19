@@ -8,15 +8,20 @@ import model.Employee;
 
 public class SetNextID {
 	public static String generateNextId(List<Employee> list) {
+		int currentYear = Year.now().getValue() % 100;
 		int max = 000;
-		int next;
 		for (Employee e : list) {
 			String id = e.getId();
 			int num = Integer.parseInt(id.substring(4));
-			max = Math.max(max, num);
+			int idYear = Integer.parseInt(id.substring(2, 4));
+			if (idYear == currentYear) {
+	            max = Math.max(max, num);
+	        }
+			else {
+				max=000;
+			}
 		}
-		next = max + 1;
-		int year = Year.now().getValue() % 100;
-		return "TT" + year + String.format("%03d", next);
+		 int next = max + 1;
+		 return "TT" + currentYear + String.format("%03d", next);
 	}
 }

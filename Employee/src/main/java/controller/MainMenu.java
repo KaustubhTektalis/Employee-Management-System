@@ -47,7 +47,7 @@ public class MainMenu {
 
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("Select correct option"+e.getMessage());
 
 		}
 	}

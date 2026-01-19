@@ -1,13 +1,12 @@
 package service;
 
-import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-import com.google.common.hash.Hashing;
+import org.mindrot.jbcrypt.BCrypt;
 
 import customExceptions.EmployeeNotFoundException;
 import customExceptions.IdFormatWrongException;
@@ -52,7 +51,8 @@ public class PasswordMethods {
 		if (plainPassword == null) {
 			throw new IllegalArgumentException("Password cannot be null");
 		}
-		return Hashing.sha256().hashString(plainPassword.trim(), StandardCharsets.UTF_8).toString();
+//		return Hashing.sha256().hashString(plainPassword, StandardCharsets.UTF_8).toString();
+		return BCrypt.hashpw(plainPassword, BCrypt.gensalt(12));
 	}
 
 	public static void updatePassword(CrudImplementation ops, Scanner sc)

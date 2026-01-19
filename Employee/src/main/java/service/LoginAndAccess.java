@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import dao.CrudImplementation;
 import dao.EmployeeListOps;
 import model.Employee;
@@ -47,10 +49,10 @@ public class LoginAndAccess {
 
 	private static Employee accessCheckFile(CrudImplementation ops, String empID, String pass) {
 
-		String hashedPass = PasswordMethods.hash(pass);
+//		String hashedPass = PasswordMethods.hash(pass);
 
 		for (Employee e : EmployeeListOps.findAll()) {
-			if (e.getId().equals(empID) && e.getPassword().equals(hashedPass)) {
+			if (e.getId().equals(empID) && BCrypt.checkpw(pass, e.getPassword())) {
 				return e;
 			}
 		}
@@ -80,7 +82,7 @@ public class LoginAndAccess {
 
 				String storedHash = rs.getString("empPassword");
 
-				if (!PasswordMethods.hash(password).equals(storedHash)) {
+				if (!BCrypt.checkpw(password, storedHash)) {
 					System.out.println("Invalid password. Please try again.");
 					continue;
 				}

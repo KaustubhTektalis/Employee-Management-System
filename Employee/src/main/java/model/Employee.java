@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Employee {
 	private String id;
@@ -8,7 +10,7 @@ public class Employee {
 	private String mail;
 	private String address;
 	private String department;
-	private ArrayList<String> role;
+	private List<String> role;
 	private String password;
 
 	public Employee(String id, String name, String mail, String address, String department, ArrayList<String> role,
@@ -46,8 +48,8 @@ public class Employee {
 		return department;
 	}
 
-	public ArrayList<String> getRole() {
-		return role;
+	public List<String> getRole() {
+		return Collections.unmodifiableList(role);
 	}
 
 	public String getPassword() {
@@ -70,8 +72,14 @@ public class Employee {
 		this.department = department;
 	}
 
-	public void setRole(ArrayList<String> role) {
-		this.role = (role != null) ? new ArrayList<>(role) : new ArrayList<>();
+	public void addRole(String role) {
+		 if (role != null && !this.role.contains(role)) {
+	            this.role.add(role);
+	        }
+	}
+	
+	public void removeRole(String role) {
+		this.role.remove(role);
 	}
 
 	public void setPassword(String password) {

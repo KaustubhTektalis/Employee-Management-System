@@ -17,9 +17,9 @@ public interface CrudInterface {
 
 	void delete(String id) throws EmployeeNotFoundException, IdFormatWrongException;
 
-	void updateName(String id, String name) throws EmployeeNotFoundException, IdFormatWrongException;
+	void updateName(String id, String name) throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException;
 
-	void updateMail(String id, String mail) throws EmployeeNotFoundException, IdFormatWrongException;
+	void updateMail(String id, String mail) throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException;
 
 	void updateAddress(String id, String address) throws EmployeeNotFoundException, IdFormatWrongException;
 

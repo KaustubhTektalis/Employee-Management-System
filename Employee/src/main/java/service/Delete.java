@@ -18,37 +18,36 @@ public class Delete {
 
 		System.out.print("Enter employee ID to delete: ");
 		String id = sc.nextLine();
-		
+
 		System.out.print("Are you sure you want to delete Employee " + id + "? (yes/no): ");
-        String confirm = sc.nextLine().trim().toLowerCase();
-        
-        if (!confirm.equals("yes")) {
-            System.out.println("Deletion cancelled.");
-            return;
-        }
+		String confirm = sc.nextLine().trim().toLowerCase();
+
+		if (!confirm.equals("yes")) {
+			System.out.println("Deletion cancelled.");
+			return;
+		}
 		ops.delete(id);
-		SaveEmployeesToFile.saveToJson(ops, mapper, file);
-        System.out.println("Employee " + id + " has been deleted successfully.");
+		SaveEmployeesToFile.saveToJson(mapper, file);
+		System.out.println("Employee " + id + " has been deleted successfully.");
 	}
-	
-	
+
 	public static void handleDeleteDB(CrudImplementation ops, Scanner sc, Connection conn) {
-	    try {
-	        System.out.print("Enter the Employee ID to delete: ");
-	        String id = sc.nextLine();
+		try {
+			System.out.print("Enter the Employee ID to delete: ");
+			String id = sc.nextLine();
 
-	        System.out.print("Are you sure you want to delete Employee " + id + "? (yes/no): ");
-	        String confirm = sc.nextLine().trim().toLowerCase();
+			System.out.print("Are you sure you want to delete Employee " + id + "? (yes/no): ");
+			String confirm = sc.nextLine().trim().toLowerCase();
 
-	        if (!confirm.equals("yes")) {
-	            System.out.println("Deletion cancelled.");
-	            return;
-	        }
-	        ops.deleteDB(id);
-	        System.out.println("Employee " + id + " has been deleted successfully.");
+			if (!confirm.equals("yes")) {
+				System.out.println("Deletion cancelled.");
+				return;
+			}
+			ops.deleteDB(id);
+			System.out.println("Employee " + id + " has been deleted successfully.");
 
-	    } catch (Exception e) {
-	        System.out.println("Error deleting employee: " + e.getMessage());
-	    }
+		} catch (Exception e) {
+			System.out.println("Error deleting employee: " + e.getMessage());
+		}
 	}
 }

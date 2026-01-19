@@ -116,14 +116,18 @@ public class CrudImplementation implements CrudInterface {
         return Read.readSelf(conn, id);
 	}
 	
-	public void updateName(String id, String name) throws EmployeeNotFoundException, IdFormatWrongException {
-
+	public void updateName(String id, String name) throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
+		if (name == null || name.trim().isEmpty())
+			throw new InvalidDataException("Name cannot be empty");
+		else
 		getExistingEmployee(id).setName(name);
 	}
 
-	public void updateMail(String id, String mail) throws EmployeeNotFoundException, IdFormatWrongException {
-
-		getExistingEmployee(id).setMail(mail);
+	public void updateMail(String id, String mail) throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
+		if (mail == null || !mail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))
+			throw new InvalidDataException("Invalid email format");
+		else
+			getExistingEmployee(id).setMail(mail);
 	}
 
 	public void updateAddress(String id, String address) throws EmployeeNotFoundException, IdFormatWrongException {
@@ -141,15 +145,20 @@ public class CrudImplementation implements CrudInterface {
 
 		Employee emp = getExistingEmployee(id);
 
-		if (!emp.getRole().contains(role)) {
-			emp.getRole().add(role);
-		}
+//		if (!emp.getRole().contains(role)) {
+//			emp.getRole().add(role);
+//		}
+		emp.addRole(role);
+
 	}
 
 	public void revokeRole(String id, String role) throws EmployeeNotFoundException, IdFormatWrongException {
 		ValidateId.validateId(id);
+		Employee emp = getExistingEmployee(id);
 
-		getExistingEmployee(id).getRole().remove(role);
+//		getExistingEmployee(id).getRole().remove(role);
+		emp.removeRole(role);
+
 	}
 
 	public void updatePassword(String id, String newPassword)

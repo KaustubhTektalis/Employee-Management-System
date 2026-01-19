@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import customExceptions.EmployeeNotFoundException;
 import customExceptions.IdFormatWrongException;
+import customExceptions.InvalidDataException;
 import dao.CrudImplementation;
 import dao.EmployeeListOps;
 import dao.SaveEmployeesToFile;
@@ -20,7 +21,7 @@ public final class Update {
 	}
 
 	public static void handleUpdate(CrudImplementation ops, Scanner sc, ObjectMapper mapper, File file)
-			throws EmployeeNotFoundException, IdFormatWrongException {
+			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 
 		if (EmployeeListOps.isEmpty()) {
 			System.out.println("Add data before updation");
@@ -79,14 +80,14 @@ public final class Update {
 			default -> System.out.println("Invalid choice");
 			}
 
-			SaveEmployeesToFile.saveToJson(ops, mapper, file);
+			SaveEmployeesToFile.saveToJson(mapper, file);
 			ops.showAll().forEach(System.out::println);
 			break;
 		}
 	}
 
 	private static void updateAll(CrudImplementation ops, Scanner sc, String id)
-			throws EmployeeNotFoundException, IdFormatWrongException {
+			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 		updateName(ops, sc, id);
 		updateMail(ops, sc, id);
 		updateAddress(ops, sc, id);
@@ -95,14 +96,14 @@ public final class Update {
 	}
 
 	private static void updateName(CrudImplementation ops, Scanner sc, String id)
-			throws EmployeeNotFoundException, IdFormatWrongException {
+			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 		System.out.print("New name: ");
 		ops.updateName(id, sc.nextLine());
 		return;
 	}
 
 	private static void updateMail(CrudImplementation ops, Scanner sc, String id)
-			throws EmployeeNotFoundException, IdFormatWrongException {
+			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 		System.out.print("New mail: ");
 		ops.updateMail(id, sc.nextLine());
 		return;

@@ -17,7 +17,8 @@ import service.PasswordMethods;
 import service.Update;
 
 public class AdminMenu {
-	private AdminMenu() {}
+	private AdminMenu() {
+	}
 
 	public static void showMenu(CrudImplementation ops, Scanner sc, ObjectMapper mapper, File file) {
 
@@ -62,16 +63,16 @@ public class AdminMenu {
 
 				case CHANGE_PASSWORD:
 					PasswordMethods.updatePassword(ops, sc);
-					SaveEmployeesToFile.saveToJson(ops, mapper, file);
+					SaveEmployeesToFile.saveToJson(mapper, file);
 					break;
 
 				case RESET_PASSWORD:
 					PasswordMethods.resetPassword(ops, sc);
-					SaveEmployeesToFile.saveToJson(ops, mapper, file);
+					SaveEmployeesToFile.saveToJson(mapper, file);
 					break;
 
 				case EXIT:
-					SaveEmployeesToFile.saveToJson(ops, mapper, file);
+					SaveEmployeesToFile.saveToJson(mapper, file);
 					System.out.println("Admin logged out.");
 					break;
 
@@ -85,10 +86,9 @@ public class AdminMenu {
 
 		} while (choice != AdminChoices.EXIT);
 	}
-	
+
 //	---------------------------------------------------------------------------------------------------------
-	
-	
+
 	public static void showDBMenu(CrudImplementation ops, Scanner sc, Connection conn) {
 
 		AdminChoices choice = null;
@@ -155,6 +155,5 @@ public class AdminMenu {
 
 		} while (choice != AdminChoices.EXIT);
 	}
-	
-	
+
 }

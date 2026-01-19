@@ -5,7 +5,7 @@
   "address" : "hyd",
   "department" : "dev",
   "role" : [ "Admin", "Employee", "ADMIN" ],
-  "password" : "9bd69fde2a547907a18827beae53aecafe01671ca2d8c22ce720c8ca4ece8d0f"
+  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT25003",
   "name" : "rineeshaaaa",
@@ -13,7 +13,7 @@
   "address" : "JPT",
   "department" : "DEV",
   "role" : [ "Manager" ],
-  "password" : "d35752e39971d74d0809d0a08811a0e2611ae44da360cebe264ba1c1d833e8da"
+  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT25004",
   "name" : "kaustubh",
@@ -21,7 +21,7 @@
   "address" : "hyd",
   "department" : "dev",
   "role" : [ "Employee" ],
-  "password" : "d35752e39971d74d0809d0a08811a0e2611ae44da360cebe264ba1c1d833e8da"
+  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT25005",
   "name" : "KAUSTUBH",
@@ -29,7 +29,7 @@
   "address" : "HYDERABAD",
   "department" : "DEV",
   "role" : [ "Employee", "MANAGER", "EMPLOYEE" ],
-  "password" : "d35752e39971d74d0809d0a08811a0e2611ae44da360cebe264ba1c1d833e8da"
+  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT25006",
   "name" : "Kaustubh",
@@ -37,7 +37,7 @@
   "address" : "hyd",
   "department" : "dev",
   "role" : [ "Admin" ],
-  "password" : "d35752e39971d74d0809d0a08811a0e2611ae44da360cebe264ba1c1d833e8da"
+  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT26008",
   "name" : "Rohith",
@@ -45,7 +45,7 @@
   "address" : "hyderabad",
   "department" : "dev",
   "role" : [ "Employee" ],
-  "password" : "d35752e39971d74d0809d0a08811a0e2611ae44da360cebe264ba1c1d833e8da"
+  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT26009",
   "name" : "mounish",
@@ -53,7 +53,7 @@
   "address" : "hyd",
   "department" : "dev",
   "role" : [ "Employee" ],
-  "password" : "4a0600e2d65c962eb9346824dd1c2e6499aaf5ef3d3e47c5d2989b16e2049791"
+  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT26010",
   "name" : "shanmukh",
@@ -61,7 +61,7 @@
   "address" : "hyd",
   "department" : "dev",
   "role" : [ "Manager" ],
-  "password" : "c33c4c3de1dd9628369c4a04f9f2cdc3a1162b67beb522e16633665a72e5475e"
+  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT26011",
   "name" : "Roch",
@@ -69,7 +69,7 @@
   "address" : "hyd",
   "department" : "dev",
   "role" : [ "Admin" ],
-  "password" : "832b930823ef2b716546e96897c9b2ab90a3f490a86e0614fb264cf0cb9b18e9"
+  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT26012",
   "name" : "rinee",
@@ -77,5 +77,5 @@
   "address" : "hyd",
   "department" : "dev",
   "role" : [ "Admin" ],
-  "password" : "c1d440403ecb32b77647e3697e5da8d7cd2d40237bb137eadc2f701bc3cdb28c"
+  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 } ]

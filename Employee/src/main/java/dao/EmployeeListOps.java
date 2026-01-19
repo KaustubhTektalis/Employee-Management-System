@@ -9,7 +9,7 @@ import model.Employee;
 
 public class EmployeeListOps {
 
-	private final static List<Employee> employees = new ArrayList<>();
+	private static final List<Employee> employees = java.util.Collections.synchronizedList(new ArrayList<>());
 
 	public static void setEmployees(List<Employee> list) {
 		employees.clear();

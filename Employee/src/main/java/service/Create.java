@@ -45,18 +45,16 @@ public class Create {
 
 			String randomPasswordForNew = PasswordMethods.randomPasswordGenerator();
 			Employee newEmployee = ops.add(name, mail, address, department, role, randomPasswordForNew);
-			SaveEmployeesToFile.saveToJson(ops, mapper, file);
+			SaveEmployeesToFile.saveToJson(mapper, file);
 			System.out.println("New user added!");
 			System.out.println(ops.showOne(newEmployee.getId()));
 			System.out.println(
 					"The password for new user " + newEmployee.getId() + "to login is: " + randomPasswordForNew);
 
-
 		} catch (InvalidDataException | IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
 
 	public static void handleAddDB(CrudImplementation ops, Scanner sc, Connection conn) throws SQLException {
 
@@ -80,15 +78,15 @@ public class Create {
 			RoleChoice choice = RoleChoice.valueOf(sc.nextLine().toUpperCase());
 
 			String password = PasswordMethods.randomPasswordGenerator();
-	        String empId = ops.addDB(name, mail, address, department, choice);
-	        PasswordTableDB.insertPassword(conn,empId,password);
+			String empId = ops.addDB(name, mail, address, department, choice);
+			PasswordTableDB.insertPassword(conn, empId, password);
 
-	        System.out.println("New user added!");
+			System.out.println("New user added!");
 			System.out.println(ops.showOne(empId));
-	        System.out.println("The password for new user " + empId + " to login is: " + password);
-	        
+			System.out.println("The password for new user " + empId + " to login is: " + password);
+
 		} catch (Exception e) {
-	        System.out.println(e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 }
