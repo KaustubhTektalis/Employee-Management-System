@@ -1,81 +1,116 @@
-[ {
-  "id" : "TT25001",
-  "name" : "kaus",
-  "mail" : "hehe@gmail.com",
-  "address" : "hyd",
-  "department" : "dev",
-  "role" : [ "Admin", "Employee", "ADMIN" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
-}, {
-  "id" : "TT25003",
-  "name" : "rineeshaaaa",
-  "mail" : "APRNAKIRAN@GMAIL.COM",
-  "address" : "JPT",
-  "department" : "DEV",
-  "role" : [ "Manager" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
-}, {
-  "id" : "TT25004",
-  "name" : "kaustubh",
-  "mail" : "jlkaustubh@gmail.com",
-  "address" : "hyd",
-  "department" : "dev",
-  "role" : [ "Employee" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
-}, {
-  "id" : "TT25005",
-  "name" : "KAUSTUBH",
-  "mail" : "JLKAUSTUBH@GMAIL.COM",
-  "address" : "HYDERABAD",
-  "department" : "DEV",
-  "role" : [ "Employee", "MANAGER", "EMPLOYEE" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
-}, {
-  "id" : "TT25006",
-  "name" : "Kaustubh",
-  "mail" : "hehe@gmail.com",
-  "address" : "hyd",
-  "department" : "dev",
-  "role" : [ "Admin" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
-}, {
-  "id" : "TT26008",
-  "name" : "Rohith",
-  "mail" : "ROHITHHHH@GMAIL.COM",
-  "address" : "hyderabad",
-  "department" : "dev",
-  "role" : [ "Employee" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
-}, {
-  "id" : "TT26009",
-  "name" : "mounish",
-  "mail" : "mounish@gmail.comn",
-  "address" : "hyd",
-  "department" : "dev",
-  "role" : [ "Employee" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
-}, {
-  "id" : "TT26010",
-  "name" : "shanmukh",
-  "mail" : "shan@gmail.comn",
-  "address" : "hyd",
-  "department" : "dev",
-  "role" : [ "Manager" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
-}, {
-  "id" : "TT26011",
-  "name" : "Roch",
-  "mail" : "roch@gmail.com",
-  "address" : "hyd",
-  "department" : "dev",
-  "role" : [ "Admin" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
-}, {
-  "id" : "TT26012",
-  "name" : "rinee",
-  "mail" : "rineesha@gmail.com",
-  "address" : "hyd",
-  "department" : "dev",
-  "role" : [ "Admin" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
-} ]
+[
+	{
+		"id": "TT25001",
+		"name": "kaus",
+		"mail": "hehe@gmail.com",
+		"address": "hyd",
+		"department": "dev",
+		"role": [
+			"Admin",
+			"Employee",
+			"ADMIN"
+		],
+		"password": "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+	},
+	{
+		"id": "TT25003",
+		"name": "rineeshaaaa",
+		"mail": "APRNAKIRAN@GMAIL.COM",
+		"address": "JPT",
+		"department": "DEV",
+		"role": [
+			"Manager"
+		],
+		"password": "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+	},
+	{
+		"id": "TT25004",
+		"name": "kaustubh",
+		"mail": "jlkaustubh@gmail.com",
+		"address": "hyd",
+		"department": "dev",
+		"role": [
+			"Employee"
+		],
+		"password": "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+	},
+	{
+		"id": "TT25005",
+		"name": "KAUSTUBH",
+		"mail": "JLKAUSTUBH@GMAIL.COM",
+		"address": "HYDERABAD",
+		"department": "DEV",
+		"role": [
+			"Employee",
+			"MANAGER",
+			"EMPLOYEE"
+		],
+		"password": "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+	},
+	{
+		"id": "TT25006",
+		"name": "Kaustubh",
+		"mail": "hehe@gmail.com",
+		"address": "hyd",
+		"department": "dev",
+		"role": [
+			"Admin"
+		],
+		"password": "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+	},
+	{
+		"id": "TT26008",
+		"name": "Rohith",
+		"mail": "ROHITHHHH@GMAIL.COM",
+		"address": "hyderabad",
+		"department": "dev",
+		"role": [
+			"Employee"
+		],
+		"password": "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+	},
+	{
+		"id": "TT26009",
+		"name": "mounish",
+		"mail": "mounish@gmail.comn",
+		"address": "hyd",
+		"department": "dev",
+		"role": [
+			"Employee"
+		],
+		"password": "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+	},
+	{
+		"id": "TT26010",
+		"name": "shanmukh",
+		"mail": "shan@gmail.comn",
+		"address": "hyd",
+		"department": "dev",
+		"role": [
+			"Manager"
+		],
+		"password": "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+	},
+	{
+		"id": "TT26011",
+		"name": "Roch",
+		"mail": "roch@gmail.com",
+		"address": "hyd",
+		"department": "dev",
+		"role": [
+			"Admin"
+		],
+		"password": "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+	},
+	{
+		"id": "TT26012",
+		"name": "rinee",
+		"mail": "rineesha@gmail.com",
+		"address": "hyd",
+		"department": "dev",
+		"role": [
+			"Admin"
+		],
+		"password": "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+	}
+]
