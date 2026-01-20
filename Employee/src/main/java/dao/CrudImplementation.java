@@ -51,15 +51,6 @@ public class CrudImplementation implements CrudInterface {
 	public Employee add(String name, String mail, String address, String department, ArrayList<String> role,
 			String password) throws InvalidDataException {
 
-		if (name == null || name.trim().isEmpty())
-			throw new InvalidDataException("Name cannot be empty");
-
-		if (mail == null || !mail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))
-			throw new InvalidDataException("Invalid email format");
-
-		if (department == null || department.trim().isEmpty())
-			throw new InvalidDataException("Department cannot be empty");
-
 		String id = SetNextID.generateNextId(EmployeeListOps.findAll());
 		String hashedPassword = PasswordMethods.hash(password);
 
@@ -117,21 +108,14 @@ public class CrudImplementation implements CrudInterface {
 	}
 	
 	public void updateName(String id, String name) throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
-		if (name == null || name.trim().isEmpty())
-			throw new InvalidDataException("Name cannot be empty");
-		else
 		getExistingEmployee(id).setName(name);
 	}
 
 	public void updateMail(String id, String mail) throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
-		if (mail == null || !mail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))
-			throw new InvalidDataException("Invalid email format");
-		else
 			getExistingEmployee(id).setMail(mail);
 	}
 
-	public void updateAddress(String id, String address) throws EmployeeNotFoundException, IdFormatWrongException {
-
+	public void updateAddress(String id, String address) throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 		getExistingEmployee(id).setAddress(address);
 	}
 
@@ -144,10 +128,6 @@ public class CrudImplementation implements CrudInterface {
 	public void addRole(String id, String role) throws EmployeeNotFoundException, IdFormatWrongException {
 
 		Employee emp = getExistingEmployee(id);
-
-//		if (!emp.getRole().contains(role)) {
-//			emp.getRole().add(role);
-//		}
 		emp.addRole(role);
 
 	}
@@ -213,7 +193,6 @@ public class CrudImplementation implements CrudInterface {
 
 			RoleTableDB.insertRole(conn, generatedEmpId, role);
 //			PasswordTableDB.insertPassword(conn, generatedEmpId, null);
-
 			conn.commit();
 			return generatedEmpId;
 		} catch (Exception e) {

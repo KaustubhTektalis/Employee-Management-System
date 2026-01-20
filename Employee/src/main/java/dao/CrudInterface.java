@@ -21,16 +21,16 @@ public interface CrudInterface {
 
 	void updateMail(String id, String mail) throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException;
 
-	void updateAddress(String id, String address) throws EmployeeNotFoundException, IdFormatWrongException;
+	void updateAddress(String id, String address) throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException;
 
-	void updateDepartment(String id, String department) throws EmployeeNotFoundException, IdFormatWrongException;
+	void updateDepartment(String id, String department) throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException;
 
 	void addRole(String id, String role) throws EmployeeNotFoundException, IdFormatWrongException;
 
 	void revokeRole(String id, String role) throws EmployeeNotFoundException, IdFormatWrongException;
 
 	void updatePassword(String loggedInid, String password)
-			throws InvalidDataException,IdFormatWrongException, EmployeeNotFoundException ;
+			throws InvalidDataException, IdFormatWrongException, EmployeeNotFoundException ;
 
 	List<Employee> showAll() throws EmployeeNotFoundException, IdFormatWrongException;
 

@@ -32,6 +32,15 @@ public class Create {
 
 			System.out.print("Enter department: ");
 			String department = sc.nextLine();
+			
+			if (name == null || name.trim().isEmpty())
+				throw new InvalidDataException("Name cannot be empty");
+
+			if (mail == null || !mail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))
+				throw new InvalidDataException("Invalid email format");
+
+			if (department == null || department.trim().isEmpty())
+				throw new InvalidDataException("Department cannot be empty");
 
 			System.out.println("Choose a role:");
 			for (RoleChoice r : RoleChoice.values()) {
@@ -70,6 +79,15 @@ public class Create {
 
 			System.out.print("Enter department: ");
 			String department = sc.nextLine();
+			
+			if (name == null || name.trim().isEmpty())
+				throw new InvalidDataException("Name cannot be empty");
+
+			if (mail == null || !mail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))
+				throw new InvalidDataException("Invalid email format");
+
+			if (department == null || department.trim().isEmpty())
+				throw new InvalidDataException("Department cannot be empty");
 
 			System.out.println("Choose a role:");
 			for (RoleChoice r : RoleChoice.values()) {
@@ -86,7 +104,7 @@ public class Create {
 			System.out.println("The password for new user " + empId + " to login is: " + password);
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("Check data format!"+e.getMessage());
 		}
 	}
 }

@@ -98,27 +98,39 @@ public final class Update {
 	private static void updateName(CrudImplementation ops, Scanner sc, String id)
 			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 		System.out.print("New name: ");
-		ops.updateName(id, sc.nextLine());
+		String name=sc.nextLine();
+		if (name == null || name.trim().isEmpty())
+			throw new InvalidDataException("Name cannot be empty");
+		ops.updateName(id, name);
 		return;
 	}
 
 	private static void updateMail(CrudImplementation ops, Scanner sc, String id)
 			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 		System.out.print("New mail: ");
-		ops.updateMail(id, sc.nextLine());
+		String mail=sc.nextLine();
+		if (mail == null || !mail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))
+			throw new InvalidDataException("Invalid email format");
+		ops.updateMail(id, mail);
 		return;
 	}
 
 	private static void updateAddress(CrudImplementation ops, Scanner sc, String id)
-			throws EmployeeNotFoundException, IdFormatWrongException {
+			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 		System.out.print("New address: ");
-		ops.updateAddress(id, sc.nextLine());
+		String address=sc.nextLine();
+		if (address == null || address.trim().isEmpty())
+			throw new InvalidDataException("Address cannot be empty");
+		ops.updateAddress(id, address);
 		return;
 	}
 
 	private static void updateDepartment(CrudImplementation ops, Scanner sc, String id)
-			throws EmployeeNotFoundException, IdFormatWrongException {
+			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 		System.out.print("New department: ");
+		String department=sc.nextLine();
+		if (department == null || department.trim().isEmpty())
+			throw new InvalidDataException("Department cannot be empty");
 		ops.updateDepartment(id, sc.nextLine());
 		return;
 	}
@@ -134,6 +146,7 @@ public final class Update {
 		for (RoleChoice r : RoleChoice.values()) {
 			System.out.println(r);
 		}
+		System.out.println("Your choice: ");
 
 		RoleChoice role = RoleChoice.valueOf(sc.nextLine().toUpperCase());
 
@@ -234,7 +247,6 @@ public final class Update {
 				case 6 -> updateRoleDB(ops, sc, targetId);
 				default -> System.out.println("Invalid choice");
 				}
-//				ops.showAll().forEach(System.out::println);
 				break;
 			}
 		} catch (Exception e) {
@@ -242,7 +254,7 @@ public final class Update {
 		}
 	}
 
-	public static void updateAllDB(CrudImplementation ops, Scanner sc, String id) {
+	public static void updateAllDB(CrudImplementation ops, Scanner sc, String id) throws InvalidDataException {
 		updateNameDB(ops, sc, id);
 		updateMailDB(ops, sc, id);
 		updateAddressDB(ops, sc, id);
@@ -250,27 +262,39 @@ public final class Update {
 		updateRoleDB(ops, sc, id);
 	}
 
-	public static void updateNameDB(CrudImplementation ops, Scanner sc, String id) {
+	public static void updateNameDB(CrudImplementation ops, Scanner sc, String id) throws InvalidDataException {
 		System.out.print("New name: ");
-		ops.updateNameDB(id, sc.nextLine());
+		String name=sc.nextLine();
+		if (name == null || name.trim().isEmpty())
+			throw new InvalidDataException("Name cannot be empty");
+		ops.updateNameDB(id, name);
 		return;
 	}
 
-	public static void updateMailDB(CrudImplementation ops, Scanner sc, String id) {
+	public static void updateMailDB(CrudImplementation ops, Scanner sc, String id) throws InvalidDataException {
 		System.out.print("New mail: ");
-		ops.updateMailDB(id, sc.nextLine());
+		String mail=sc.nextLine();
+		if (mail == null || !mail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))
+			throw new InvalidDataException("Invalid email format");
+		ops.updateMailDB(id, mail);
 		return;
 	}
 
-	public static void updateAddressDB(CrudImplementation ops, Scanner sc, String id) {
+	public static void updateAddressDB(CrudImplementation ops, Scanner sc, String id) throws InvalidDataException {
 		System.out.print("New address: ");
-		ops.updateAddressDB(id, sc.nextLine());
+		String address=sc.nextLine();
+		if (address == null || address.trim().isEmpty())
+			throw new InvalidDataException("Address cannot be empty");
+		ops.updateAddressDB(id, address);
 return;
 	}
 
-	public static void updateDepartmentDB(CrudImplementation ops, Scanner sc, String id) {
+	public static void updateDepartmentDB(CrudImplementation ops, Scanner sc, String id) throws InvalidDataException {
 		System.out.print("New department: ");
-		ops.updateDepartmentDB(id, sc.nextLine());
+		String department=sc.nextLine();
+		if (department == null || department.trim().isEmpty())
+			throw new InvalidDataException("Department cannot be empty");
+		ops.updateDepartmentDB(id, department);
 		return;
 	}
 
@@ -284,6 +308,7 @@ return;
 		for (RoleChoice r : RoleChoice.values()) {
 			System.out.println(r);
 		}
+		System.out.println("Your choice: ");
 
 		RoleChoice role = RoleChoice.valueOf(sc.nextLine().toUpperCase());
 
