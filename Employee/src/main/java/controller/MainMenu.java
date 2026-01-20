@@ -105,7 +105,7 @@ public class MainMenu {
 		 */
 
 		MakeConnection db = new MakeConnection();
-		Connection conn = db.connect_to_db("localhost","crudoperations", "postgres", "pass");
+		Connection conn = db.connect_to_db("db.gngwzkdvmixpgvkxknpf.supabase.co","postgres?sslmode=require", "postgres", "tektalisPASS123$");
 
 		if (conn == null) {
 			System.out.println("Database connection failed.");
