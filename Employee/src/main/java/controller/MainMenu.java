@@ -61,6 +61,7 @@ public class MainMenu {
 		File file = new File(FILE_PATH);
 
 		try {
+			
 
 			if (file.exists() && file.length() > 0) {
 				List<Employee> list = mapper.readValue(file, new TypeReference<List<Employee>>() {
