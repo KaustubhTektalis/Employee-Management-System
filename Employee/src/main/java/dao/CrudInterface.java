@@ -12,6 +12,7 @@ import enums.RoleChoice;
 import model.Employee;
 
 public interface CrudInterface {
+	
 	Employee add(String name, String mail, String address, String department, ArrayList<String> role, String password)
 			throws InvalidDataException;
 

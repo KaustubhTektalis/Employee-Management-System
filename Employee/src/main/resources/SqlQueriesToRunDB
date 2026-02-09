@@ -11,6 +11,9 @@ CREATE TABLE employees (
     empdepartment VARCHAR(200)
 );
 
+ALTER TABLE employees
+ADD COLUMN active BOOLEAN NOT NULL DEFAULT TRUE;
+
 
 2. -------------------------------------------------------------------------------------
 
@@ -35,6 +38,9 @@ CREATE TABLE roles (
     empid VARCHAR(50) REFERENCES employees(id) ON DELETE CASCADE,
     role VARCHAR(200) NOT NULL
 );
+
+ALTER TABLE roles ADD COLUMN active BOOLEAN DEFAULT TRUE;
+
 
 5. -------------------------------------------------------------------------------------
 

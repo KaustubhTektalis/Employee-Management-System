@@ -1,6 +1,6 @@
 package dao;
 
-//Methods use the Employees arrayList
+//Methods that use the Employees arrayList
 
 import java.util.ArrayList;
 import java.util.List;

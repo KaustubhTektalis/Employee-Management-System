@@ -84,7 +84,6 @@ public class CrudImplementation implements CrudInterface {
 	    return list;
 	}
 
-
 	public Employee showOne(String id) throws EmployeeNotFoundException {
 
 		if (backend == ChooseBackend.FILE) {
@@ -148,7 +147,7 @@ public class CrudImplementation implements CrudInterface {
 	
 	
 	public boolean employeeExistsDB(String id) {
-		String query="SELECT 1 FROM employees WHERE empid=?";
+		String query="SELECT 1 FROM employees WHERE empid=? AND active IS TRUE";
 		try{
 			PreparedStatement ps=conn.prepareStatement(query);
 			ps.setString(1, id);
@@ -197,20 +196,21 @@ public class CrudImplementation implements CrudInterface {
 
 	public void deleteDB(String id) {
 		try {
-			String deletePassword = "DELETE FROM passwords WHERE empId = ?";
-			PreparedStatement psPass = conn.prepareStatement(deletePassword);
-			psPass.setString(1, id);
+//			String deletePassword = "DELETE FROM passwords WHERE empId = ?";
+//			PreparedStatement psPass = conn.prepareStatement(deletePassword);
+//			psPass.setString(1, id);
+//
+//			String deleteRoles = "DELETE FROM roles WHERE empId = ?";
+//			PreparedStatement psRoles = conn.prepareStatement(deleteRoles);
+//			psRoles.setString(1, id);
 
-			String deleteRoles = "DELETE FROM roles WHERE empId = ?";
-			PreparedStatement psRoles = conn.prepareStatement(deleteRoles);
-			psRoles.setString(1, id);
-
-			String deleteEmployee = "DELETE FROM employees WHERE empId = ?";
+			String deleteEmployee = "UPDATE employees SET active = FALSE WHERE empid = ?";
 			PreparedStatement psEmp = conn.prepareStatement(deleteEmployee);
 			psEmp.setString(1, id);
 
-			psPass.executeUpdate();
-			psRoles.executeUpdate();
+//			psPass.executeUpdate();
+//			psRoles.executeUpdate();
+			
 			int rowsDeleted = psEmp.executeUpdate();
 			if (rowsDeleted > 0) {
 				System.out.println("Employee " + id + " deleted from database.");
@@ -225,7 +225,7 @@ public class CrudImplementation implements CrudInterface {
 
 	public void updateNameDB(String id, String name) {
 		try {
-			String query = "UPDATE employees SET empName = ? WHERE empId = ?";
+			String query = "UPDATE employees SET empName = ? WHERE empId = ? AND active IS TRUE";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, name);
@@ -245,7 +245,7 @@ public class CrudImplementation implements CrudInterface {
 
 	public void updateMailDB(String id, String mail) {
 		try {
-			String query = "UPDATE employees SET empMail = ? WHERE empId = ?";
+			String query = "UPDATE employees SET empMail = ? WHERE empId = ? AND active IS TRUE";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, mail);
@@ -265,7 +265,7 @@ public class CrudImplementation implements CrudInterface {
 
 	public void updateAddressDB(String id, String address) {
 		try {
-			String query = "UPDATE employees SET empAddress = ? WHERE empId = ?";
+			String query = "UPDATE employees SET empAddress = ? WHERE empId = ? AND active IS TRUE";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, address);
@@ -285,7 +285,7 @@ public class CrudImplementation implements CrudInterface {
 
 	public void updateDepartmentDB(String id, String department) {
 		try {
-			String query = "UPDATE employees SET empDepartment = ? WHERE empId = ?";
+			String query = "UPDATE employees SET empDepartment = ? WHERE empId = ? AND active IS TRUE";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, department);
@@ -305,7 +305,8 @@ public class CrudImplementation implements CrudInterface {
 
 	public void addRoleDB(String id, String role) {
 		try {
-			String query = "INSERT INTO roles (empid, role) VALUES (?, ?)";
+			String query = "INSERT INTO roles (empid, role, active) SELECT e.empid, ?, "
+					+ "TRUE FROM employees e WHERE e.empid = ? AND e.active = TRUE";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, id);
@@ -324,7 +325,8 @@ public class CrudImplementation implements CrudInterface {
 
 	public void revokeRoleDB(String id, String role) {
 		try {
-			String query = "DELETE FROM roles WHERE empid = ? AND role = ?";
+			String query = "UPDATE roles r INNER JOIN employees e ON r.empid = e.empid "
+					+ "SET r.active = FALSE WHERE r.empid = ? AND r.role = ? AND e.active = TRUE AND r.active = TRUE";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, id);
@@ -348,7 +350,8 @@ public class CrudImplementation implements CrudInterface {
 		try {
 			String hashedPassword = PasswordMethods.hash(password);
 
-			String query = "UPDATE passwords SET empPassword = ? WHERE empid = ?";
+			String query = "UPDATE passwords p INNER JOIN employees e ON p.empid = e.empid "
+					+ "SET p.empPassword = ? WHERE p.empid = ? AND e.active = TRUE";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, hashedPassword);
