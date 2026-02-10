@@ -62,11 +62,6 @@
 			<version>2.25.3</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.company</groupId>
-			<artifactId>employees</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

@@ -12,7 +12,7 @@
   "mail" : "rineesha@GMAIL.COM",
   "address" : "Hyd",
   "department" : "DEV",
-  "role" : [ "Manager","Employee" ],
+  "role" : [ "Manager", "Employee" ],
   "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT25004",
@@ -86,4 +86,12 @@
   "department" : "dev",
   "role" : [ "Admin" ],
   "password" : "$2a$12$oOzVB1CWgoDZvdbYoRhuce3WamQdhXBUNcgek38CIQSecqw6mXWTG"
+}, {
+  "id" : "TT26014",
+  "name" : "rochisna",
+  "mail" : "roch@gmail.com",
+  "address" : "hyd",
+  "department" : "dev",
+  "role" : [ "Manager" ],
+  "password" : "$2a$12$3O.hDFMKidzIQ8Ohq0nHcOPggv7AuD9hdpw0qPAiapvxb87GURJDW"
 } ]
