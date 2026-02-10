@@ -5,10 +5,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;	
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,7 +23,7 @@ import util.ValidateMail;
 import util.ValidateName;
 
 public class Create {
-	private static final Logger logger = LoggerFactory.getLogger(Create.class);
+	private static final Logger logger = LogManager.getLogger(Create.class);
 	public static void handleAdd(CrudImplementation ops, Scanner sc, ObjectMapper mapper, File file)
 			throws EmployeeNotFoundException, IdFormatWrongException {
 
@@ -64,17 +62,16 @@ public class Create {
                     newEmployee.getName(), 
                     newEmployee.getDepartment(), 
                     role);
-			logger.info("Generated password for new employee id={} is: {}", newEmployee.getId(), randomPasswordForNew);
-			
-			
-//			System.out.println("New user added!");
+			System.out.println("Generated password for new employee "+ newEmployee.getId()+ " is: "+ randomPasswordForNew);
+			logger.info("Password generated for new employee {}",newEmployee.getId());
 
-		} catch (InvalidDataException | IllegalArgumentException e) {
-			logger.error("Failed to add employee", e);
+
+		} catch (Exception e) {
+		    logger.error("Error while adding employee", e);
 		}
 	}
 
-	public static void handleAddDB(CrudImplementation ops, Scanner sc, Connection conn) throws SQLException {
+	public static void handleAddDB(CrudImplementation ops, Scanner sc, Connection conn) throws SQLException, EmployeeNotFoundException {
 
 		try {
 			System.out.print("Enter name: ");
@@ -104,11 +101,15 @@ public class Create {
 			PasswordTableDB.insertPassword(conn, empId, password);
 
 //			System.out.println("New user added!");
-			logger.info("New employee added:" ,ops.showOne(empId));
-			logger.info("Generated password for new employee id={} is: {}", empId, password);
+			logger.info("New employee added: {}" ,ops.showOne(empId));
+			System.out.println("Generated password for new employee "+empId+" is: "+ password);
+			logger.info("Password generated for new employee {}",empId);
 
-		} catch (Exception e) {
-			logger.error("Failed to add employee", e);
+		} catch (SQLException e) {
+		    logger.error("Database error while adding employee", e);
+		}
+		catch (InvalidDataException | IllegalArgumentException e) {
+		    logger.warn("Invalid input: {}", e.getMessage());
 		}
 	}
 }

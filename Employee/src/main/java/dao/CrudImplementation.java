@@ -231,9 +231,9 @@ public class CrudImplementation implements CrudInterface {
 			ps.setString(1, name);
 			ps.setString(2, id);
 
-			if (ps.executeUpdate() > 0) {
-				System.out.println("Name of Employee " + id + " updated!");
-			}
+//			if (ps.executeUpdate() > 0) {
+//				System.out.println("Name of Employee " + id + " updated!");
+//			}
 
 			Read.readOne(conn, id);
 
@@ -251,9 +251,9 @@ public class CrudImplementation implements CrudInterface {
 			ps.setString(1, mail);
 			ps.setString(2, id);
 
-			if (ps.executeUpdate() > 0) {
-				System.out.println("Mail of Employee " + id + " updated!");
-			}
+//			if (ps.executeUpdate() > 0) {
+//				System.out.println("Mail of Employee " + id + " updated!");
+//			}
 
 			Read.readOne(conn, id);
 
@@ -271,9 +271,9 @@ public class CrudImplementation implements CrudInterface {
 			ps.setString(1, address);
 			ps.setString(2, id);
 
-			if (ps.executeUpdate() > 0) {
-				System.out.println("Address of Employee " + id + " updated!");
-			}
+//			if (ps.executeUpdate() > 0) {
+//				System.out.println("Address of Employee " + id + " updated!");
+//			}
 
 			Read.readOne(conn, id);
 

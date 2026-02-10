@@ -8,7 +8,7 @@ Enter the application using the details in samplelogin.
 Package Flow:
 
 1. model: 1. Employee constructor
-
+	
 2. main: 1. Main class -> Calls 'controller.MainMenu' to display menu.
 
 3. controller: -> Calls all 'service' package.

@@ -10,15 +10,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.mindrot.jbcrypt.BCrypt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import dao.CrudImplementation;
 import dao.EmployeeListOps;
 import model.Employee;
 
 public class LoginAndAccess {
-	private static final Logger logger = LoggerFactory.getLogger(LoginAndAccess.class);
+	private static final Logger logger = LogManager.getLogger(LoginAndAccess.class);
 	
 	public static void authenticateInFile(CrudImplementation ops, Scanner sc) {
 
@@ -43,7 +42,7 @@ public class LoginAndAccess {
 
 			if (emp != null) {
 				PasswordMethods.setLoginContext(emp.getId(), emp.getRole());
-				System.out.println("Login successful\n");
+				logger.info("Login successful\n");
 				return;
 			}
 
@@ -70,7 +69,7 @@ public class LoginAndAccess {
 			String password = sc.nextLine();
 
 			try {
-				String passQuery = "SELECT empPassword FROM passwords WHERE empId = ? AND active IS TRUE";
+				String passQuery = "SELECT p.empPassword FROM passwords p JOIN employees e ON p.empid=e.empid WHERE p.empId = ? AND e.active IS TRUE";
 				PreparedStatement ps = conn.prepareStatement(passQuery);
 				ps.setString(1, empId);
 
@@ -112,7 +111,6 @@ public class LoginAndAccess {
 		while (rs.next()) {
 			roles.add(rs.getString("role"));
 		}
-
 		return roles;
 	}
 }

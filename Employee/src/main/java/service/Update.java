@@ -5,8 +5,8 @@ import java.io.File;
 import java.sql.Connection;
 import java.util.Scanner;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,7 +23,7 @@ import util.ValidateMail;
 import util.ValidateName;
 
 public final class Update {
-	private static final Logger logger = LoggerFactory.getLogger(Update.class);
+	private static final Logger logger = LogManager.getLogger(Update.class);
 
 	private Update() {
 	}
@@ -141,7 +141,7 @@ public final class Update {
 		System.out.print("New department: ");
 		String department = sc.nextLine();
 		ValidateDepartment.validateDepartment(department);
-		ops.updateDepartment(id, sc.nextLine());
+		ops.updateDepartment(id, department);
 		logger.info("Updated department for employee ID {}: {}", id, department);
 		return;
 	}
@@ -218,6 +218,12 @@ public final class Update {
 
 			int who = sc.nextInt();
 			sc.nextLine();
+			
+			if (who != 1 && who != 2) {
+			    logger.warn("Invalid selection");
+			    return;
+			}
+			
 			if (who == 1) {
 				targetId = PasswordMethods.getLoggedInId();
 			} else if (who == 2) {
@@ -263,7 +269,7 @@ public final class Update {
 				break;
 			}
 		} catch (Exception e) {
-			logger.warn("Enter the ocrrect number.");
+			logger.warn("Enter the correct number.");
 		}
 	}
 

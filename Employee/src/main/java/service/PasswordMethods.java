@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -15,6 +17,7 @@ import dao.CrudImplementation;
 import util.ValidateId;
 
 public class PasswordMethods {
+	private static final Logger logger = LogManager.getLogger(PasswordMethods.class);
 
 	private static String loggedInID = null;
 	private static List<String> loggedInRoles = new ArrayList<>();
@@ -56,7 +59,6 @@ public class PasswordMethods {
 
 	public static void updatePassword(CrudImplementation ops, Scanner sc)
 			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
-
 		ensureLoggedIn();
 
 		while (true) {
@@ -67,10 +69,10 @@ public class PasswordMethods {
 			String p2 = sc.nextLine().trim();
 
 			if (!p1.equals(p2)) {
-				System.out.println("Passwords do not match. Try again.");
+				logger.warn("Passwords do not match. Try again.");
 			} else {
 				ops.updatePassword(loggedInID, p1);
-				System.out.println("Password updated successfully!");
+				logger.info("Password updated successfully!");
 				break;
 			}
 		}
@@ -92,7 +94,8 @@ public class PasswordMethods {
 		case 1 -> {
 			String newPass = randomPasswordGenerator();
 			ops.updatePassword(loggedInID, newPass);
-			System.out.println("Your new password is: " + newPass);
+			System.out.println("Your new password is: "+newPass);
+			logger.info("Password of employee {} updated",loggedInID);
 		}
 		case 2 -> {
 			System.out.print("ID of the employee: ");
@@ -101,9 +104,10 @@ public class PasswordMethods {
 
 			String newPass = randomPasswordGenerator();
 			ops.updatePassword(selectedID, newPass);
-			System.out.println("The new password is: " + newPass);
+			System.out.println("The new password for employee "+ selectedID +"is: "+  newPass);
+			logger.info("Password of employee {} updated",selectedID);
 		}
-		default -> System.out.println("Invalid choice");
+		default ->logger.warn("Invalid choice");
 		}
 	}
 
@@ -119,10 +123,10 @@ public class PasswordMethods {
 			String p2 = sc.nextLine().trim();
 
 			if (!p1.equals(p2)) {
-				System.out.println("Passwords do not match. Try again.");
+				logger.warn("Passwords do not match. Try again.");
 			} else {
 				ops.updatePasswordDB(loggedInID, p1);
-				System.out.println("Password updated successfully!");
+				logger.info("Password updated successfully!");
 				break;
 			}
 		}
@@ -144,7 +148,8 @@ public class PasswordMethods {
 		case 1 -> {
 			String newPass = randomPasswordGenerator();
 			ops.updatePasswordDB(loggedInID, newPass);
-			System.out.println("Your new password is: " + newPass);
+			System.out.println("Your new password is: "+newPass);
+			logger.info("Password of employee {} updated",loggedInID);
 		}
 		case 2 -> {
 			System.out.print("ID of the employee: ");
@@ -153,9 +158,10 @@ public class PasswordMethods {
 
 			String newPass = randomPasswordGenerator();
 			ops.updatePasswordDB(selectedID, newPass);
-			System.out.println("The new password is: " + newPass);
+			System.out.println("The new password for employee "+ selectedID +"is: "+  newPass);
+			logger.info("Password of employee {} updated",selectedID);
 		}
-		default -> System.out.println("Invalid choice");
+		default -> logger.warn("Invalid choice");
 		}
 	}
 

@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 public class PasswordTableDB {
 	public static void insertPassword(Connection conn, String empId, String plainPassword) {
 		try {
-		String query="INSERT INTO passwords(empId,empPassword) VALUES (?,?);";
+		String query="INSERT INTO passwords(empId,empPassword) VALUES (?,?)";
 		PreparedStatement ps=conn.prepareStatement(query);
 
 		ps.setString(1, empId);
@@ -14,7 +14,7 @@ public class PasswordTableDB {
 		ps.executeUpdate();
 		}
 		catch(Exception e) {
-			System.out.println(e.getMessage());
+			throw new RuntimeException("Failed to insert password", e);
 		}
 	}
 }
