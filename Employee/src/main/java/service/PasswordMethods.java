@@ -14,12 +14,13 @@ import customExceptions.EmployeeNotFoundException;
 import customExceptions.IdFormatWrongException;
 import customExceptions.InvalidDataException;
 import dao.CrudImplementation;
+import util.ValidPassword;
 import util.ValidateId;
 
 public class PasswordMethods {
 	private static final Logger logger = LoggerFactory.getLogger(PasswordMethods.class);
 
-	private static String loggedInID = null;
+	private static String loggedInID;
 	private static List<String> loggedInRoles = new ArrayList<>();
 
 	private PasswordMethods() {
@@ -44,9 +45,10 @@ public class PasswordMethods {
 	public static boolean hasRole(String role) {
 		return loggedInRoles.stream().anyMatch(r -> r.equalsIgnoreCase(role));
 	}
+	
 
 	public static void clearLoginContext() {
-		loggedInID = null;
+		loggedInID=null;
 		loggedInRoles.clear();
 	}
 
@@ -59,12 +61,15 @@ public class PasswordMethods {
 
 	public static void updatePassword(CrudImplementation ops, Scanner sc)
 			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
-		ensureLoggedIn();
-
 		while (true) {
 			System.out.print("Enter new password: ");
 			String p1 = sc.nextLine().trim();
-
+			
+			if(!ValidPassword.isValidPassword(p1)) {
+				System.out.println("Password must contain atleast one uppercase letter, one number and one special character");
+				continue;
+			}
+			
 			System.out.print("Re-enter new password: ");
 			String p2 = sc.nextLine().trim();
 
@@ -79,11 +84,11 @@ public class PasswordMethods {
 			}
 		}
 	}
+	
 
 	public static void resetPassword(CrudImplementation ops, Scanner sc)
 			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
-
-		ensureLoggedIn();
+//		ensureLoggedIn();
 
 		System.out.println("Enter 1 to Reset Your Password");
 		System.out.println("Enter 2 to Reset someone else's password");
@@ -100,10 +105,9 @@ public class PasswordMethods {
 			logger.info("Password of employee {} updated",loggedInID);
 		}
 		case 2 -> {
-			System.out.print("ID of the employee: ");
+			System.out.print("ID of the employee to reset password: ");
 			String selectedID = sc.nextLine();
 			ValidateId.validateId(selectedID);
-
 			String newPass = randomPasswordGenerator();
 			ops.updatePassword(selectedID, newPass);
 			System.out.println("The new password for employee "+ selectedID +"is: "+  newPass);
@@ -114,16 +118,19 @@ public class PasswordMethods {
 	}
 
 	public static void updatePasswordDB(CrudImplementation ops, Scanner sc) {
-
-		ensureLoggedIn();
+//		ensureLoggedIn();
 
 		while (true) {
 			System.out.print("Enter new password: ");
 			String p1 = sc.nextLine().trim();
-
+			
+			if(!ValidPassword.isValidPassword(p1)) {
+				System.out.println("Password must contain atleast one uppercase letter, one number and one special character");
+				continue;
+//				throw new InvalidDataException("Password must contain atleast one uppercase letter, one number and one special character");	
+			}
 			System.out.print("Re-enter new password: ");
 			String p2 = sc.nextLine().trim();
-
 			if (!p1.equals(p2)) {
 				System.out.println("Passwords do not match. Try again.");
 				logger.warn("Passwords do not match. Try again.");
@@ -138,9 +145,8 @@ public class PasswordMethods {
 
 	public static void resetPasswordDB(CrudImplementation ops, Scanner sc)
 			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
-
-		ensureLoggedIn();
-
+//		ensureLoggedIn();
+		
 		System.out.println("Enter 1 to Reset Your Password");
 		System.out.println("Enter 2 to Reset someone else's password");
 		System.out.print("Your choice: ");
@@ -159,7 +165,6 @@ public class PasswordMethods {
 			System.out.print("ID of the employee: ");
 			String selectedID = sc.nextLine();
 			ValidateId.validateId(selectedID);
-
 			String newPass = randomPasswordGenerator();
 			ops.updatePasswordDB(selectedID, newPass);
 			System.out.println("The new password for employee "+ selectedID +"is: "+  newPass);
@@ -199,10 +204,9 @@ public class PasswordMethods {
 
 		return new String(chars);
 	}
-
-	private static void ensureLoggedIn() {
-		if (loggedInID == null) {
-			throw new IllegalStateException("No user is logged in");
-		}
-	}
+//	private static void ensureLoggedIn() {
+//		if(loggedInID==null) {
+//			throw new IllegalStateException("No user logged in");
+//		}
+//	}
 }

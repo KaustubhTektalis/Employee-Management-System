@@ -21,7 +21,6 @@ import service.LoginAndAccess;
 public class MainMenu {
 	private static final String FILE_PATH = "employees_data.json";
 	static Scanner sc = new Scanner(System.in);
-	static CrudImplementation ops;
 
 	public static void Menu() {
 		ChooseBackend ch = null;
@@ -57,6 +56,8 @@ public class MainMenu {
 	}
 
 	public static void FileMenu() {
+		
+		CrudImplementation ops=new CrudImplementation(null);
 
 		ObjectMapper mapper = new ObjectMapper();
 		File file = new File(FILE_PATH);
@@ -115,7 +116,7 @@ public class MainMenu {
 			return;
 		}
 		
-		ops=new CrudImplementation(conn);
+		CrudImplementation ops=new CrudImplementation(conn);
 
 		try {
 
@@ -126,7 +127,7 @@ public class MainMenu {
 			} else if (PasswordMethods.hasRole("Manager")) {
 				ManagerMenu.showDBMenu(ops, sc, conn);
 			} else {
-				EmployeeMenu.showDBMenu(ops, sc);
+				EmployeeMenu.showDBMenu(ops, sc,conn);
 			}
 
 		} catch (Exception e) {

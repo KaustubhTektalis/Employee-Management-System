@@ -10,6 +10,7 @@ import dao.CrudImplementation;
 import dao.SaveEmployeesToFile;
 import enums.ManagerChoices;
 import service.PasswordMethods;
+import service.Read;
 import service.Update;
 
 public class ManagerMenu {
@@ -98,11 +99,11 @@ public class ManagerMenu {
 					break;
 
 				case SHOW_ALL:
-					ops.showAll().forEach(System.out::println);
+					Read.readAllDB(conn).forEach(System.out::println);
 					break;
 
 				case MY_DETAILS:
-					System.out.println(ops.showSelf(PasswordMethods.getLoggedInId()));
+					System.out.println(Read.readSelfDB(conn));
 					break;
 
 				case CHANGE_PASSWORD:

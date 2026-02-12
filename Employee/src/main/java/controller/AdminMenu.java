@@ -150,11 +150,11 @@ public class AdminMenu {
 					break;
 
 				case CHANGE_PASSWORD:
-					PasswordMethods.updatePassword(ops, sc);
+					PasswordMethods.updatePasswordDB(ops, sc);
 					break;
 
 				case RESET_PASSWORD:
-					PasswordMethods.resetPassword(ops, sc);
+					PasswordMethods.resetPasswordDB(ops, sc);
 					break;
 
 				case EXIT:

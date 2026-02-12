@@ -5,7 +5,7 @@
   "address" : "hyd",
   "department" : "dev",
   "role" : [ "Admin", "Employee", "ADMIN" ],
-  "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
+  "password" : "$2a$12$gTw4ATJ/KsCPEGBu04EuIuIk1yNVGx6W622yAhz5xUcD7CV6vaejO"
 }, {
   "id" : "TT25003",
   "name" : "rineeshaaaa",

@@ -17,13 +17,11 @@ import service.RoleTableDB;
 import service.PasswordMethods;
 import service.Read;
 import service.SetNextID;
-import util.ValidPassword;
 import util.ValidateId;
 
 public class CrudImplementation implements EmployeeDao {
 
 	private Connection conn;
-//	private final ChooseBackend backend;
 
 	public CrudImplementation(Connection conn) {
 		this.conn = conn;
@@ -120,10 +118,6 @@ public class CrudImplementation implements EmployeeDao {
 	public void updatePassword(String id, String newPassword)
 			throws InvalidDataException, IdFormatWrongException, EmployeeNotFoundException {
 
-		if (!ValidPassword.isValidPassword(newPassword))
-			throw new InvalidDataException(
-					"Password must contain at least one uppercase letter, one number, and one special character.");
-
 		getExistingEmployee(id).setPassword(PasswordMethods.hash(newPassword));
 	}
 
@@ -213,7 +207,7 @@ public class CrudImplementation implements EmployeeDao {
 			Read.readOneDB(conn, id);
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error updating Name");
 		}
 
 	}
@@ -233,7 +227,7 @@ public class CrudImplementation implements EmployeeDao {
 			Read.readOneDB(conn, id);
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error updating Mail");
 		}
 
 	}
@@ -253,7 +247,7 @@ public class CrudImplementation implements EmployeeDao {
 			Read.readOneDB(conn, id);
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error updating Address");
 		}
 
 	}
@@ -273,7 +267,7 @@ public class CrudImplementation implements EmployeeDao {
 			Read.readOneDB(conn, id);
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error updating Department");
 		}
 
 	}
@@ -293,9 +287,8 @@ public class CrudImplementation implements EmployeeDao {
 
 			Read.readOneDB(conn, id);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Role already exists for the employee");
 		}
-
 	}
 
 	public void revokeRoleDB(String id, String role) {
@@ -313,7 +306,7 @@ public class CrudImplementation implements EmployeeDao {
 			Read.readOneDB(conn, id);
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Selected role doesn't previously exist for the employee");
 		}
 
 	}
@@ -322,16 +315,14 @@ public class CrudImplementation implements EmployeeDao {
 		try {
 			String hashedPassword = PasswordMethods.hash(password);
 
-			String query = "UPDATE passwords p INNER JOIN employees e ON p.empid = e.empid "
-					+ "SET p.empPassword = ? WHERE p.empid = ? AND e.active = TRUE";
+			String query = "UPDATE passwords p SET empPassword = ? FROM employees e "
+					+ "WHERE p.empid = e.empid AND p.empid =? AND e.active = TRUE";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, hashedPassword);
 			ps.setString(2, id);
 
-			int rowsUpdated = ps.executeUpdate();
-
-			if (rowsUpdated > 0) {
+			if (ps.executeUpdate() > 0) {
 				System.out.println("Password updated for employee " + id);
 			} else {
 				System.out.println("Employee not found: " + id);

@@ -101,3 +101,34 @@ java.lang.NullPointerException: Cannot invoke "dao.CrudImplementation.deleteDB(S
 2026-02-12 11:52:10,997 - service.Read - [readAllDB] - (INFO) - Employees data fetched - 
 2026-02-12 11:52:17,798 - service.Read - [readInactive] - (INFO) - Inactive Employees data fetched - 
 2026-02-12 11:53:08,567 - service.Create - [handleAddDB] - (WARN) - Invalid input: Invalid email format - 
+2026-02-12 12:43:02,161 - service.LoginAndAccess - [authenticateInDB] - (WARN) - Invalid password. Please try again. - 
+2026-02-12 12:43:08,514 - service.LoginAndAccess - [authenticateInDB] - (WARN) - Invalid Employee ID. Please try again. - 
+2026-02-12 12:43:17,173 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-12 12:44:27,255 - service.RoleTableDB - [insertRole] - (INFO) - The role ADMIN added for employee TT26007 - 
+2026-02-12 12:44:27,536 - service.Read - [readOneDB] - (INFO) - Fetched employee with ID TT26007 - 
+2026-02-12 12:44:27,542 - service.Create - [handleAddDB] - (INFO) - New employee added: Details: Id: TT26007 Name: navya Mail:nav@tektalis.com Address:hyd Department:finance - 
+2026-02-12 12:44:27,542 - service.Create - [handleAddDB] - (INFO) - Password generated for new employee TT26007 - 
+2026-02-12 12:45:15,631 - service.Update - [updateRoleDB] - (INFO) - Added role ADMIN to employee ID TT26007 - 
+2026-02-12 12:47:21,690 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26007, Roles: ADMIN - 
+2026-02-12 12:47:37,877 - service.Update - [updateRoleDB] - (INFO) - Added role ADMIN to employee ID TT26007 - 
+2026-02-12 12:48:20,754 - service.Update - [updateRoleDB] - (INFO) - Revoked role ADMIN from employee ID TT26007 - 
+2026-02-12 12:48:46,693 - service.Read - [readSelfDB] - (INFO) - Fetched self details for employee ID TT26007 - 
+2026-02-12 12:50:19,271 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26007, Roles: ADMIN - 
+2026-02-12 12:59:49,925 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26007, Roles: ADMIN - 
+2026-02-12 13:08:06,435 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26007, Roles: ADMIN - 
+2026-02-12 13:08:57,881 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26007, Roles: ADMIN - 
+2026-02-12 13:09:56,294 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26007, Roles: ADMIN - 
+2026-02-12 14:42:15,930 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-12 14:45:02,860 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-12 14:45:54,935 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-12 14:46:03,029 - service.PasswordMethods - [resetPasswordDB] - (INFO) - Password of employee TT26007 updated - 
+2026-02-12 14:46:37,758 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26007, Roles: ADMIN - 
+2026-02-12 14:46:56,749 - service.PasswordMethods - [updatePasswordDB] - (INFO) - Password updated successfully! - 
+2026-02-12 14:47:14,390 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26007, Roles: ADMIN - 
+2026-02-12 14:57:51,654 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-12 14:58:12,437 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26007, Roles: ADMIN - 
+2026-02-12 14:59:09,100 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26007, Roles: ADMIN - 
+2026-02-12 14:59:27,755 - service.PasswordMethods - [updatePasswordDB] - (INFO) - Password updated successfully! - 
+2026-02-12 15:03:13,990 - service.LoginAndAccess - [authenticateInFile] - (INFO) - Login successful. Employee ID: TT25001, Role: [Admin, Employee, ADMIN] - 
+2026-02-12 15:04:39,107 - service.LoginAndAccess - [authenticateInFile] - (INFO) - Login successful. Employee ID: TT25001, Role: [Admin, Employee, ADMIN] - 
+2026-02-12 15:04:50,940 - service.PasswordMethods - [updatePassword] - (INFO) - Password updated successfully! - 

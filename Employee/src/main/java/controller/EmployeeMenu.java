@@ -2,10 +2,11 @@ package controller;
 
 import java.util.Scanner;
 
-
+import java.sql.Connection;
 import dao.CrudImplementation;
 import enums.EmployeeChoices;
 import service.PasswordMethods;
+import service.Read;
 import service.Update;
 
 public class EmployeeMenu {
@@ -60,7 +61,7 @@ public class EmployeeMenu {
 	
 	
 	
-	public static void showDBMenu(CrudImplementation ops, Scanner sc) {
+	public static void showDBMenu(CrudImplementation ops, Scanner sc, Connection conn) {
 
 		EmployeeChoices choice = null;
 
@@ -86,7 +87,7 @@ public class EmployeeMenu {
 					break;
 
 				case MY_DETAILS:
-					System.out.println(ops.showSelf(PasswordMethods.getLoggedInId()));
+					System.out.println(Read.readSelfDB(conn));
 					break;
 
 				case CHANGE_PASSWORD:
