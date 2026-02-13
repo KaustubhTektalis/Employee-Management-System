@@ -1,16 +1,14 @@
 package dao;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import customExceptions.EmployeeNotFoundException;
 import customExceptions.IdFormatWrongException;
 import customExceptions.InvalidDataException;
-import enums.RoleChoice;
 import model.Employee;
 
-public interface EmployeeDao {
+public interface EmployeeDaoFile {
 	
 	Employee add(String name, String mail, String address, String department, ArrayList<String> role, String password)
 			throws InvalidDataException;
@@ -32,24 +30,7 @@ public interface EmployeeDao {
 	void updatePassword(String loggedInid, String password)
 			throws InvalidDataException, IdFormatWrongException, EmployeeNotFoundException ;
 
-	List<Employee> showAll() throws EmployeeNotFoundException, IdFormatWrongException;
+	List<Employee> readAll() throws EmployeeNotFoundException, IdFormatWrongException;
 
-	Employee showOne(String id) throws EmployeeNotFoundException, IdFormatWrongException;
-	
-	Employee showSelf(String id) throws EmployeeNotFoundException;
-	
-
-	String addDB(String name,String mail,String address,String department, RoleChoice role) throws SQLException;
-	void updateNameDB(String id, String name);
-	void updateMailDB(String id, String mail);
-	void updateDepartmentDB(String id, String department);
-	void updateAddressDB(String id, String address);
-	void addRoleDB(String id, String role);
-	void deleteDB(String id);
-	void updatePasswordDB(String id, String password);
-	void revokeRoleDB(String id, String role);
-	List<Employee> showAllDB() throws EmployeeNotFoundException, IdFormatWrongException, SQLException;
-	Employee showOneDB(String id) throws EmployeeNotFoundException, IdFormatWrongException, SQLException;
-	Employee showSelfDB() throws SQLException;
-	
+	Employee readOne(String id) throws EmployeeNotFoundException, IdFormatWrongException;
 }

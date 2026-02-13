@@ -7,22 +7,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mindrot.jbcrypt.BCrypt;
 
+import service.LoginAndAccess;
 import service.PasswordMethods;
 
 class PasswordMethodsTest {
 
 	@BeforeEach
 	void clearContext() {
-		PasswordMethods.clearLoginContext();
+		LoginAndAccess.clearLoginContext();
 	}
 
 	@Test
 	void testSetAndGetLoginContext() {
-		PasswordMethods.setLoginContext("TT25001", List.of("Admin", "Manager"));
-		assertEquals("TT25001", PasswordMethods.getLoggedInId());
-		assertTrue(PasswordMethods.hasRole("Admin"));
-		assertTrue(PasswordMethods.hasRole("Manager"));
-		assertFalse(PasswordMethods.hasRole("Employee"));
+		LoginAndAccess.setLoginContext("TT25001", List.of("Admin", "Manager"));
+		assertEquals("TT25001",LoginAndAccess.getLoggedInId());
+		assertTrue(LoginAndAccess.hasRole("Admin"));
+		assertTrue(LoginAndAccess.hasRole("Manager"));
+		assertFalse(LoginAndAccess.hasRole("Employee"));
 	}
 
 	@Test
@@ -47,10 +48,10 @@ class PasswordMethodsTest {
 
 	@Test
 	void testClearLoginContext() {
-		PasswordMethods.setLoginContext("TT25001", List.of("Admin"));
-		PasswordMethods.clearLoginContext();
+		LoginAndAccess.setLoginContext("TT25001", List.of("Admin"));
+		LoginAndAccess.clearLoginContext();
 
-		assertNull(PasswordMethods.getLoggedInId());
-		assertTrue(PasswordMethods.getLoggedInRoles().isEmpty());
+		assertNull(LoginAndAccess.getLoggedInId());
+		assertTrue(LoginAndAccess.getLoggedInRoles().isEmpty());
 	}
 }

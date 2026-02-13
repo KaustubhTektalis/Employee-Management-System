@@ -132,3 +132,128 @@ java.lang.NullPointerException: Cannot invoke "dao.CrudImplementation.deleteDB(S
 2026-02-12 15:03:13,990 - service.LoginAndAccess - [authenticateInFile] - (INFO) - Login successful. Employee ID: TT25001, Role: [Admin, Employee, ADMIN] - 
 2026-02-12 15:04:39,107 - service.LoginAndAccess - [authenticateInFile] - (INFO) - Login successful. Employee ID: TT25001, Role: [Admin, Employee, ADMIN] - 
 2026-02-12 15:04:50,940 - service.PasswordMethods - [updatePassword] - (INFO) - Password updated successfully! - 
+2026-02-12 17:08:09,809 - service.Create - [handleAdd] - (ERROR) - Error while adding employee - 
+java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.ObjectWriter.writeValue(java.io.File, Object)" because the return value of "com.fasterxml.jackson.databind.ObjectMapper.writerWithDefaultPrettyPrinter()" is null
+	at dao.SaveEmployeesToFile.saveToJson(SaveEmployeesToFile.java:15)
+	at service.Create.handleAdd(Create.java:105)
+	at testservices.AddEmployeeServiceTest.testAdd(testEmployeeList.java:52)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:701)
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:502)
+	at org.junit.jupiter.engine.support.MethodReflectionUtils.invoke(MethodReflectionUtils.java:45)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:61)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:124)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:163)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:148)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:123)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:105)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:99)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:66)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:47)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:39)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:104)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:98)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invokeVoid(InterceptingExecutableInvoker.java:71)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$0(TestMethodTestDescriptor.java:219)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:215)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:157)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:70)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:176)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:101)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:53)
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$1(InterceptingLauncher.java:49)
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:48)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:53)
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:74)
+	at org.eclipse.jdt.internal.junit5.runner.JUnit5TestReference.run(JUnit5TestReference.java:100)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:40)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:520)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:748)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:443)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:211)
+2026-02-13 11:44:20,382 - service.LoginAndAccess - [accessCheckFile] - (WARN) - Invalid password. Please try again. - 
+2026-02-13 11:44:40,725 - service.LoginAndAccess - [accessCheckFile] - (WARN) - Invalid password. Please try again. - 
+2026-02-13 11:44:47,531 - service.LoginAndAccess - [authenticateInFile] - (INFO) - Login successful. Employee ID: TT25001, Role: [Admin, Employee, ADMIN] - 
+2026-02-13 11:44:52,979 - service.Read - [handleReadAll] - (INFO) - Employees data fetched - 
+2026-02-13 11:45:35,923 - service.Update - [handleUpdateMail] - (INFO) - Updated mail for employee ID TT25005: jlkaustubh@gmail.com - 
+2026-02-13 11:45:35,927 - service.Update - [handleUpdateMenu] - (INFO) - Updated employee data for ID TT25005 - 
+2026-02-13 11:49:31,875 - service.LoginAndAccess - [authenticateInFile] - (INFO) - Login successful. Employee ID: TT25001, Role: [Admin, Employee, ADMIN] - 
+2026-02-13 11:49:36,463 - service.Read - [handleReadOne] - (ERROR) - Error fetching all employees: {} - 
+2026-02-13 11:49:52,792 - service.Update - [handleUpdateMenu] - (WARN) - Invalid input, need to enter a number. - 
+2026-02-13 11:50:01,985 - service.Update - [handleUpdateMail] - (INFO) - Updated mail for employee ID TT25005: jlakustubh@gmail.com - 
+2026-02-13 11:52:38,524 - service.LoginAndAccess - [authenticateInFile] - (INFO) - Login successful. Employee ID: TT25001, Role: [Admin, Employee, ADMIN] - 
+2026-02-13 11:54:14,944 - service.LoginAndAccess - [authenticateInFile] - (INFO) - Login successful. Employee ID: TT25001, Role: [Admin, Employee, ADMIN] - 
+2026-02-13 11:54:29,456 - service.Update - [handleUpdateName] - (INFO) - Updated name for employee ID TT25005: KAUSSSS - 
+2026-02-13 11:56:25,676 - service.LoginAndAccess - [authenticateInFile] - (INFO) - Login successful. Employee ID: TT25001, Role: [Admin, Employee, ADMIN] - 
+2026-02-13 11:56:34,891 - service.Update - [handleUpdateMenu] - (WARN) - Invalid input, need to enter a number. - 
+2026-02-13 11:56:41,431 - service.Update - [handleUpdateMail] - (INFO) - Updated mail for employee ID TT25001: hehe@gmail.com - 
+2026-02-13 11:56:47,183 - service.Read - [handleReadOne] - (ERROR) - Error fetching all employees: {} - 
+2026-02-13 11:56:50,592 - controller.AdminMenu - [showMenu] - (INFO) - Admin TT25001 logged out. - 
+2026-02-13 14:50:46,925 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-13 14:51:18,867 - service.Update - [handleUpdateAddressDB] - (INFO) - Updated address for employee ID TT26001: hyderabad - 
+2026-02-13 14:51:50,867 - service.Update - [handleUpdateNameDB] - (INFO) - Updated name for employee ID TT26003: Tharun - 
+2026-02-13 14:52:08,465 - service.Update - [handleUpdateMailDB] - (INFO) - Updated mail for employee ID TT26003: tharun@gmail.com - 
+2026-02-13 14:52:11,918 - service.Update - [handleUpdateAddressDB] - (INFO) - Updated address for employee ID TT26003: hyderabad - 
+2026-02-13 14:52:14,454 - service.Update - [handleUpdateDepartmentDB] - (INFO) - Updated department for employee ID TT26003: dev - 
+2026-02-13 14:52:18,818 - service.Update - [handleUpdateRoleDB] - (INFO) - Revoked role ADMIN from employee ID TT26003 - 
+2026-02-13 14:52:29,939 - controller.AdminMenu - [showDBMenu] - (INFO) - Admin TT26001 logged out. - 
+2026-02-13 15:01:03,541 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-13 15:01:33,197 - service.Update - [handleUpdateMenuDB] - (WARN) - Error updating data. - 
+2026-02-13 15:02:23,841 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-13 15:02:56,667 - service.Update - [handleUpdateRoleDB] - (INFO) - Revoked role ADMIN from employee ID TT26003 - 
+2026-02-13 15:24:43,410 - service.LoginAndAccess - [authenticateInFile] - (INFO) - Login successful. Employee ID: TT25001, Role: [Admin, Employee, ADMIN] - 
+2026-02-13 15:25:00,468 - service.Update - [handleUpdateRole] - (INFO) - Revoked role ADMIN from employee ID TT25001 - 
+2026-02-13 15:25:06,859 - service.Read - [handleReadOne] - (INFO) - Error fetching all employees: {} - 
+2026-02-13 15:25:34,335 - service.Update - [handleUpdateRole] - (INFO) - Revoked role MANAGER from employee ID TT25001 - 
+2026-02-13 15:47:36,764 - service.LoginAndAccess - [authenticateInDB] - (WARN) - Invalid password. Please try again. - 
+2026-02-13 15:47:46,215 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-13 15:48:01,719 - service.Update - [handleUpdateRoleDB] - (WARN) - Invalid choice - 
+2026-02-13 15:48:47,607 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-13 15:49:11,495 - service.Update - [handleUpdateRoleDB] - (INFO) - Revoked role EMPLOYEE from employee ID TT26003 - 
+2026-02-13 15:50:44,288 - service.LoginAndAccess - [authenticateInDB] - (WARN) - Invalid password. Please try again. - 
+2026-02-13 15:50:50,038 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-13 15:51:34,842 - service.Update - [handleUpdateRoleDB] - (INFO) - Revoked role ADMIN from employee ID TT26003 - 
+2026-02-13 15:51:48,769 - service.Update - [handleUpdateRoleDB] - (INFO) - Revoked role MANAGER from employee ID TT26003 - 

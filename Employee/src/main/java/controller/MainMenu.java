@@ -10,11 +10,11 @@ import java.util.Scanner;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import dao.CrudImplementation;
+import dao.CrudDBImplementation;
+import dao.CrudFileImplementation;
 import dao.EmployeeListOps;
 import enums.ChooseBackend;
 import model.Employee;
-import service.PasswordMethods;
 import util.MakeConnection;
 import service.LoginAndAccess;
 
@@ -57,7 +57,7 @@ public class MainMenu {
 
 	public static void FileMenu() {
 		
-		CrudImplementation ops=new CrudImplementation(null);
+		CrudFileImplementation fops= new CrudFileImplementation();
 
 		ObjectMapper mapper = new ObjectMapper();
 		File file = new File(FILE_PATH);
@@ -70,17 +70,17 @@ public class MainMenu {
 				EmployeeListOps.setEmployees(list);
 			}
 
-			LoginAndAccess.authenticateInFile(ops, sc);
+			LoginAndAccess.authenticateInFile(fops, sc);
 
 			
-			if (PasswordMethods.hasRole("Admin")) {
-				AdminMenu.showMenu(ops, sc, mapper, file);
+			if (LoginAndAccess.hasRole("Admin")) {
+				AdminMenu.showMenu(fops, sc, mapper, file);
 
-			} else if (PasswordMethods.hasRole("Manager")) {
-				ManagerMenu.showMenu(ops, sc, mapper, file);
+			} else if (LoginAndAccess.hasRole("Manager")) {
+				ManagerMenu.showMenu(fops, sc, mapper, file);
 
 			} else {
-				EmployeeMenu.showMenu(ops, sc);
+				EmployeeMenu.showMenu(fops, sc, mapper, file);
 			}
 		} catch (IOException e) {
 			System.out.println("Error reading file: " + e.getMessage());
@@ -104,6 +104,8 @@ public class MainMenu {
 		MakeConnection db = new MakeConnection();
 		Connection conn = null;
 
+		CrudDBImplementation dbops=new CrudDBImplementation(conn);
+		
 		try {
 			conn = db.connect_to_db("localhost", "crudoperations", "postgres", "pass");
 		} catch (SQLException e) {
@@ -115,19 +117,17 @@ public class MainMenu {
 			System.out.println("Database connection failed.");
 			return;
 		}
-		
-		CrudImplementation ops=new CrudImplementation(conn);
 
 		try {
 
 			LoginAndAccess.authenticateInDB(conn, sc);
 
-			if (PasswordMethods.hasRole("Admin")) {
-				AdminMenu.showDBMenu(ops, sc, conn);
-			} else if (PasswordMethods.hasRole("Manager")) {
-				ManagerMenu.showDBMenu(ops, sc, conn);
+			if (LoginAndAccess.hasRole("Admin")) {
+				AdminMenu.showDBMenu(dbops, sc, conn);
+			} else if (LoginAndAccess.hasRole("Manager")) {
+				ManagerMenu.showDBMenu(dbops, sc, conn);
 			} else {
-				EmployeeMenu.showDBMenu(ops, sc,conn);
+				EmployeeMenu.showDBMenu(dbops, sc,conn);
 			}
 
 		} catch (Exception e) {

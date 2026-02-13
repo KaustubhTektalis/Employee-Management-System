@@ -4,7 +4,7 @@
   "mail" : "hehe@gmail.com",
   "address" : "hyd",
   "department" : "dev",
-  "role" : [ "Admin", "Employee", "ADMIN" ],
+  "role" : [ "Admin", "Employee" ],
   "password" : "$2a$12$gTw4ATJ/KsCPEGBu04EuIuIk1yNVGx6W622yAhz5xUcD7CV6vaejO"
 }, {
   "id" : "TT25003",
@@ -24,8 +24,8 @@
   "password" : "$2a$12$w61PBfYEufexEp5XN2xtyubOF3gFwX/MhlM54jpPIRGOPI6UUwKZW"
 }, {
   "id" : "TT25005",
-  "name" : "KAUSTUBH",
-  "mail" : "JLKAUSTUBH@GMAIL.COM",
+  "name" : "KAUSSSS",
+  "mail" : "jlakustubh@gmail.com",
   "address" : "HYDERABAD",
   "department" : "DEV",
   "role" : [ "Employee", "MANAGER", "EMPLOYEE" ],

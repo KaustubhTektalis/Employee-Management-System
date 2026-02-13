@@ -2,16 +2,27 @@ package controller;
 
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
 import java.sql.Connection;
-import dao.CrudImplementation;
+
+import dao.CrudDBImplementation;
+import dao.CrudFileImplementation;
 import enums.EmployeeChoices;
+import service.LoginAndAccess;
 import service.PasswordMethods;
 import service.Read;
 import service.Update;
+import util.SaveEmployeesToFile;
 
 public class EmployeeMenu {
+	private static final Logger logger = LoggerFactory.getLogger(EmployeeMenu.class);
 	private EmployeeMenu() {}
-	public static void showMenu(CrudImplementation ops, Scanner sc) {
+	public static void showMenu(CrudFileImplementation ops, Scanner sc, ObjectMapper mapper, File file) {
 
 		EmployeeChoices choice = null;
 
@@ -33,11 +44,11 @@ public class EmployeeMenu {
 				switch (choice) {
 
 				case UPDATE:
-					Update.handleUpdateForEmployee(ops, sc);
+					Update.handleUpdateMenuForEmployee(ops, sc, mapper, file);
 					break;
 
 				case MY_DETAILS:
-					System.out.println(ops.showSelf(PasswordMethods.getLoggedInId()));
+					System.out.println(Read.handleReadOne(ops,LoginAndAccess.getLoggedInId()));
 					break;
 
 				case CHANGE_PASSWORD:
@@ -45,7 +56,10 @@ public class EmployeeMenu {
 					break;
 
 				case EXIT:
+					SaveEmployeesToFile.saveToJson(mapper, file);
 					System.out.println("Employee logged out.");
+					logger.info("Employee {}  logged out.", LoginAndAccess.getLoggedInId());
+					LoginAndAccess.clearLoginContext();
 					break;
 
 				default:
@@ -61,7 +75,7 @@ public class EmployeeMenu {
 	
 	
 	
-	public static void showDBMenu(CrudImplementation ops, Scanner sc, Connection conn) {
+	public static void showDBMenu(CrudDBImplementation dbops, Scanner sc, Connection conn) {
 
 		EmployeeChoices choice = null;
 
@@ -83,19 +97,22 @@ public class EmployeeMenu {
 				switch (choice) {
 
 				case UPDATE:
-					Update.handleUpdateForEmployeeDB(ops, sc);
+					Update.handleUpdateMenuForEmployeeDB(dbops, sc, conn);
 					break;
 
 				case MY_DETAILS:
-					System.out.println(Read.readSelfDB(conn));
+					System.out.println(Read.handleReadOneDB(dbops, conn, LoginAndAccess.getLoggedInId()));
 					break;
 
 				case CHANGE_PASSWORD:
-					PasswordMethods.updatePasswordDB(ops, sc);
+					PasswordMethods.updatePasswordDB(dbops, sc);
 					break;
 
 				case EXIT:
+					conn=null;
 					System.out.println("Employee logged out.");
+					logger.info("Employee {} logged out.", LoginAndAccess.getLoggedInId());
+					LoginAndAccess.clearLoginContext();
 					break;
 
 				default:

@@ -1,9 +1,6 @@
 package service;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,44 +10,13 @@ import org.mindrot.jbcrypt.BCrypt;
 import customExceptions.EmployeeNotFoundException;
 import customExceptions.IdFormatWrongException;
 import customExceptions.InvalidDataException;
-import dao.CrudImplementation;
+import dao.CrudDBImplementation;
+import dao.CrudFileImplementation;
 import util.ValidPassword;
 import util.ValidateId;
 
 public class PasswordMethods {
 	private static final Logger logger = LoggerFactory.getLogger(PasswordMethods.class);
-
-	private static String loggedInID;
-	private static List<String> loggedInRoles = new ArrayList<>();
-
-	private PasswordMethods() {
-	}
-
-	public static void setLoginContext(String empID, List<String> roles) {
-		loggedInID = empID;
-		loggedInRoles.clear();
-		if (roles != null) {
-			loggedInRoles.addAll(roles);
-		}
-	}
-
-	public static String getLoggedInId() {
-		return loggedInID;
-	}
-
-	public static List<String> getLoggedInRoles() {
-		return Collections.unmodifiableList(loggedInRoles);
-	}
-
-	public static boolean hasRole(String role) {
-		return loggedInRoles.stream().anyMatch(r -> r.equalsIgnoreCase(role));
-	}
-	
-
-	public static void clearLoginContext() {
-		loggedInID=null;
-		loggedInRoles.clear();
-	}
 
 	public static String hash(String plainPassword) {
 		if (plainPassword == null) {
@@ -59,17 +25,18 @@ public class PasswordMethods {
 		return BCrypt.hashpw(plainPassword, BCrypt.gensalt(12));
 	}
 
-	public static void updatePassword(CrudImplementation ops, Scanner sc)
+	public static void updatePassword(CrudFileImplementation ops, Scanner sc)
 			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 		while (true) {
 			System.out.print("Enter new password: ");
 			String p1 = sc.nextLine().trim();
-			
-			if(!ValidPassword.isValidPassword(p1)) {
-				System.out.println("Password must contain atleast one uppercase letter, one number and one special character");
+
+			if (!ValidPassword.isValidPassword(p1)) {
+				System.out.println(
+						"Password must contain atleast one uppercase letter, one number and one special character");
 				continue;
 			}
-			
+
 			System.out.print("Re-enter new password: ");
 			String p2 = sc.nextLine().trim();
 
@@ -77,16 +44,15 @@ public class PasswordMethods {
 				System.out.println("Passwords do not match. Try again.");
 				logger.warn("Passwords do not match. Try again.");
 			} else {
-				ops.updatePassword(loggedInID, p1);
+				ops.updatePassword(LoginAndAccess.getLoggedInId(), p1);
 				System.out.println("Password updated successfully!");
 				logger.info("Password updated successfully!");
 				break;
 			}
 		}
 	}
-	
 
-	public static void resetPassword(CrudImplementation ops, Scanner sc)
+	public static void resetPassword(CrudFileImplementation ops, Scanner sc)
 			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 //		ensureLoggedIn();
 
@@ -100,9 +66,9 @@ public class PasswordMethods {
 		switch (choice) {
 		case 1 -> {
 			String newPass = randomPasswordGenerator();
-			ops.updatePassword(loggedInID, newPass);
-			System.out.println("Your new password is: "+newPass);
-			logger.info("Password of employee {} updated",loggedInID);
+			ops.updatePassword(LoginAndAccess.getLoggedInId(), newPass);
+			System.out.println("Your new password is: " + newPass);
+			logger.info("Password of employee {} updated", LoginAndAccess.getLoggedInId());
 		}
 		case 2 -> {
 			System.out.print("ID of the employee to reset password: ");
@@ -110,22 +76,23 @@ public class PasswordMethods {
 			ValidateId.validateId(selectedID);
 			String newPass = randomPasswordGenerator();
 			ops.updatePassword(selectedID, newPass);
-			System.out.println("The new password for employee "+ selectedID +"is: "+  newPass);
-			logger.info("Password of employee {} updated",selectedID);
+			System.out.println("The new password for employee " + selectedID + "is: " + newPass);
+			logger.info("Password of employee {} updated", selectedID);
 		}
-		default ->logger.warn("Invalid choice");
+		default -> logger.warn("Invalid choice");
 		}
 	}
 
-	public static void updatePasswordDB(CrudImplementation ops, Scanner sc) {
+	public static void updatePasswordDB(CrudDBImplementation dbops, Scanner sc) {
 //		ensureLoggedIn();
 
 		while (true) {
 			System.out.print("Enter new password: ");
 			String p1 = sc.nextLine().trim();
-			
-			if(!ValidPassword.isValidPassword(p1)) {
-				System.out.println("Password must contain atleast one uppercase letter, one number and one special character");
+
+			if (!ValidPassword.isValidPassword(p1)) {
+				System.out.println(
+						"Password must contain atleast one uppercase letter, one number and one special character");
 				continue;
 //				throw new InvalidDataException("Password must contain atleast one uppercase letter, one number and one special character");	
 			}
@@ -135,7 +102,7 @@ public class PasswordMethods {
 				System.out.println("Passwords do not match. Try again.");
 				logger.warn("Passwords do not match. Try again.");
 			} else {
-				ops.updatePasswordDB(loggedInID, p1);
+				dbops.updatePasswordDB(LoginAndAccess.getLoggedInId(), p1);
 				System.out.println("Password updated successfully!");
 				logger.info("Password updated successfully!");
 				break;
@@ -143,10 +110,10 @@ public class PasswordMethods {
 		}
 	}
 
-	public static void resetPasswordDB(CrudImplementation ops, Scanner sc)
+	public static void resetPasswordDB(CrudDBImplementation dbops, Scanner sc)
 			throws EmployeeNotFoundException, IdFormatWrongException, InvalidDataException {
 //		ensureLoggedIn();
-		
+
 		System.out.println("Enter 1 to Reset Your Password");
 		System.out.println("Enter 2 to Reset someone else's password");
 		System.out.print("Your choice: ");
@@ -157,18 +124,18 @@ public class PasswordMethods {
 		switch (choice) {
 		case 1 -> {
 			String newPass = randomPasswordGenerator();
-			ops.updatePasswordDB(loggedInID, newPass);
-			System.out.println("Your new password is: "+newPass);
-			logger.info("Password of employee {} updated",loggedInID);
+			dbops.updatePasswordDB(LoginAndAccess.getLoggedInId(), newPass);
+			System.out.println("Your new password is: " + newPass);
+			logger.info("Password of employee {} updated", LoginAndAccess.getLoggedInId());
 		}
 		case 2 -> {
 			System.out.print("ID of the employee: ");
 			String selectedID = sc.nextLine();
 			ValidateId.validateId(selectedID);
 			String newPass = randomPasswordGenerator();
-			ops.updatePasswordDB(selectedID, newPass);
-			System.out.println("The new password for employee "+ selectedID +"is: "+  newPass);
-			logger.info("Password of employee {} updated",selectedID);
+			dbops.updatePasswordDB(selectedID, newPass);
+			System.out.println("The new password for employee " + selectedID + "is: " + newPass);
+			logger.info("Password of employee {} updated", selectedID);
 		}
 		default -> logger.warn("Invalid choice");
 		}
@@ -204,9 +171,4 @@ public class PasswordMethods {
 
 		return new String(chars);
 	}
-//	private static void ensureLoggedIn() {
-//		if(loggedInID==null) {
-//			throw new IllegalStateException("No user logged in");
-//		}
-//	}
 }

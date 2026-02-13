@@ -4,24 +4,31 @@ import java.io.File;
 
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import dao.CrudImplementation;
-import dao.SaveEmployeesToFile;
+import dao.CrudDBImplementation;
+import dao.CrudFileImplementation;
 import enums.AdminChoices;
 import service.Create;
 import service.Delete;
+import service.LoginAndAccess;
 import service.PasswordMethods;
 import service.Read;
 import service.Update;
+import util.SaveEmployeesToFile;
 
 public class AdminMenu {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AdminMenu.class);
 	private AdminMenu() {
 	}
 
-	public static void showMenu(CrudImplementation ops, Scanner sc, ObjectMapper mapper, File file) {
+	public static void showMenu(CrudFileImplementation ops, Scanner sc, ObjectMapper mapper, File file) {
 
 		AdminChoices choice = null;
 
@@ -53,7 +60,7 @@ public class AdminMenu {
 					break;
 
 				case UPDATE:
-					Update.handleUpdate(ops, sc, mapper, file);
+					Update.handleUpdateMenu(ops, sc, mapper, file);
 					break;
 
 				case DELETE:
@@ -61,11 +68,11 @@ public class AdminMenu {
 					break;
 
 				case SHOW_ALL:
-					ops.showAll().forEach(System.out::println);
+					Read.handleReadAll(ops).forEach(System.out::println);
 					break;
 
 				case MY_DETAILS:
-					System.out.println(ops.showSelf(PasswordMethods.getLoggedInId()));
+					System.out.println(Read.handleReadOne(ops, LoginAndAccess.getLoggedInId()));
 					break;
 
 				case CHANGE_PASSWORD:
@@ -81,6 +88,8 @@ public class AdminMenu {
 				case EXIT:
 					SaveEmployeesToFile.saveToJson(mapper, file);
 					System.out.println("Admin logged out.");
+					logger.info("Admin {} logged out.", LoginAndAccess.getLoggedInId());
+					LoginAndAccess.clearLoginContext();
 					break;
 
 				default:
@@ -96,7 +105,7 @@ public class AdminMenu {
 
 //	---------------------------------------------------------------------------------------------------------
 
-	public static void showDBMenu(CrudImplementation ops, Scanner sc, Connection conn) {
+	public static void showDBMenu(CrudDBImplementation dbops, Scanner sc, Connection conn) {
 
 		AdminChoices choice = null;
 
@@ -124,41 +133,44 @@ public class AdminMenu {
 				switch (choice) {
 
 				case ADD:
-					Create.handleAddDB(ops, sc, conn);
+					Create.handleAddDB(dbops, sc, conn);
 					break;
 
 				case UPDATE:
-					Update.handleUpdateDB(ops, sc, conn);
+					Update.handleUpdateMenuDB(dbops, sc, conn);
 					break;
 
 				case DELETE:
-					Delete.handleDeleteDB(ops, sc, conn);
+					Delete.handleDeleteDB(dbops, sc, conn);
 					break;
 
 				case SHOW_ALL:
 //					ops.showAll().forEach(System.out::println);
-					Read.readAllDB(conn).forEach(System.out::println);
+					Read.handleReadAllDB(dbops,conn).forEach(System.out::println);
 					break;
 
 				case MY_DETAILS:
 //					System.out.println(ops.showSelf(PasswordMethods.getLoggedInId()));
-					System.out.println(Read.readSelfDB(conn));
+					System.out.println(Read.handleReadOneDB(dbops, conn, LoginAndAccess.getLoggedInId()));
 					break;
 					
 				case INACTIVE_USERS:
-					Read.readInactive(conn).forEach(System.out::println);;
+					Read.handleReadInactiveDB(dbops, conn).forEach(System.out::println);;
 					break;
 
 				case CHANGE_PASSWORD:
-					PasswordMethods.updatePasswordDB(ops, sc);
+					PasswordMethods.updatePasswordDB(dbops, sc);
 					break;
 
 				case RESET_PASSWORD:
-					PasswordMethods.resetPasswordDB(ops, sc);
+					PasswordMethods.resetPasswordDB(dbops, sc);
 					break;
 
 				case EXIT:
+					conn=null;
 					System.out.println("Admin logged out.");
+					logger.info("Admin {} logged out.", LoginAndAccess.getLoggedInId());
+					LoginAndAccess.clearLoginContext();
 					break;
 
 				default:

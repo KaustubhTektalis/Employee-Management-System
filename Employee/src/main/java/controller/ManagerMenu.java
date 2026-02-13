@@ -4,18 +4,24 @@ import java.io.File;
 import java.sql.Connection;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import dao.CrudImplementation;
-import dao.SaveEmployeesToFile;
+import dao.CrudDBImplementation;
+import dao.CrudFileImplementation;
 import enums.ManagerChoices;
+import service.LoginAndAccess;
 import service.PasswordMethods;
 import service.Read;
 import service.Update;
+import util.SaveEmployeesToFile;
 
 public class ManagerMenu {
+	private static final Logger logger = LoggerFactory.getLogger(ManagerMenu.class);
 	private ManagerMenu() {}
-	public static void showMenu(CrudImplementation ops, Scanner sc, ObjectMapper mapper, File file) {
+	public static void showMenu(CrudFileImplementation ops, Scanner sc, ObjectMapper mapper, File file) {
 
 		ManagerChoices choice = null;
 
@@ -37,15 +43,15 @@ public class ManagerMenu {
 				switch (choice) {
 
 				case UPDATE:
-					Update.handleUpdate(ops, sc, mapper, file);
+					Update.handleUpdateMenu(ops, sc, mapper, file);
 					break;
 
 				case SHOW_ALL:
-					ops.showAll().forEach(System.out::println);
+					Read.handleReadAll(ops).forEach(System.out::println);
 					break;
 
 				case MY_DETAILS:
-					System.out.println(ops.showSelf(PasswordMethods.getLoggedInId()));
+					System.out.println(Read.handleReadOne(ops,LoginAndAccess.getLoggedInId()));
 					break;
 
 				case CHANGE_PASSWORD:
@@ -56,6 +62,8 @@ public class ManagerMenu {
 				case EXIT:
 					SaveEmployeesToFile.saveToJson( mapper, file);
 					System.out.println("Manager logged out.");
+					logger.info("Manager {} logged out", LoginAndAccess.getLoggedInId());
+					LoginAndAccess.clearLoginContext();
 					break;
 
 				default:
@@ -73,7 +81,7 @@ public class ManagerMenu {
 //	------------------------------------------------------------------------------------------------
 	
 	
-	public static void showDBMenu(CrudImplementation ops, Scanner sc, Connection conn) {
+	public static void showDBMenu(CrudDBImplementation dbops, Scanner sc, Connection conn) {
 
 		ManagerChoices choice = null;
 
@@ -95,23 +103,26 @@ public class ManagerMenu {
 				switch (choice) {
 
 				case UPDATE:
-					Update.handleUpdateDB(ops, sc, conn);
+					Update.handleUpdateMenuDB(dbops, sc, conn);
 					break;
 
 				case SHOW_ALL:
-					Read.readAllDB(conn).forEach(System.out::println);
+					Read.handleReadAllDB(dbops, conn).forEach(System.out::println);
 					break;
 
 				case MY_DETAILS:
-					System.out.println(Read.readSelfDB(conn));
+					System.out.println(Read.handleReadOneDB(dbops, conn, LoginAndAccess.getLoggedInId()));
 					break;
 
 				case CHANGE_PASSWORD:
-					PasswordMethods.updatePassword(ops, sc);
+					PasswordMethods.updatePasswordDB(dbops, sc);
 					break;
 
 				case EXIT:
+					conn=null;
 					System.out.println("Manager logged out.");
+					logger.info("Manager {} logged out", LoginAndAccess.getLoggedInId());
+					LoginAndAccess.clearLoginContext();
 					break;
 
 				default:

@@ -29,7 +29,7 @@ public class EmployeeListOps {
 		return null;
 	}
 
-	public static void save(Employee employee) {
+	public static void add(Employee employee) {
 		employees.add(employee);
 	}
 

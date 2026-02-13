@@ -2,7 +2,7 @@ package testings;
 
 import model.Employee;
 import service.PasswordMethods;
-import service.SetNextID;
+import util.SetNextID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

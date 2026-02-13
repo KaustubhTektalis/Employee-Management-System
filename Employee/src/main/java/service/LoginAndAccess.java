@@ -6,20 +6,54 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import dao.CrudImplementation;
+import dao.CrudFileImplementation;
 import dao.EmployeeListOps;
 import model.Employee;
 
 public class LoginAndAccess {
 	private static final Logger logger = LoggerFactory.getLogger(LoginAndAccess.class);
+	private static String loggedInID;
+	private static List<String> loggedInRoles = new ArrayList<>();
+
+	private LoginAndAccess() {
+	}
+	//------------------------------------------------------------------------------------------------------- 
 	
-	public static void authenticateInFile(CrudImplementation ops, Scanner sc) {
+	public static void setLoginContext(String empID, List<String> roles) {
+		loggedInID = empID;
+		loggedInRoles.clear();
+		if (roles != null) {
+			loggedInRoles.addAll(roles);
+		}
+	}
+
+	public static String getLoggedInId() {
+		return loggedInID;
+	}
+
+	public static List<String> getLoggedInRoles() {
+		return Collections.unmodifiableList(loggedInRoles);
+	}
+
+	public static boolean hasRole(String role) {
+		return loggedInRoles.stream().anyMatch(r -> r.equalsIgnoreCase(role));
+	}
+	
+
+	public static void clearLoginContext() {
+		loggedInID=null;
+		loggedInRoles.clear();
+	}
+	//----------------------------------------------------------------------------------------------------
+	
+	public static void authenticateInFile(CrudFileImplementation ops, Scanner sc) {
 
 		Console console = System.console();
 		int attempts=0;
@@ -42,29 +76,20 @@ public class LoginAndAccess {
 			Employee emp = accessCheckFile(ops, id, pass);
 
 			if (emp != null) {
-				PasswordMethods.setLoginContext(emp.getId(), emp.getRole());
+				setLoginContext(emp.getId(), emp.getRole());
 				System.out.println("Login successful. Employee ID: "+emp.getId()+", Role: "+emp.getRole());
 				logger.info("Login successful. Employee ID: {}, Role: {}", emp.getId(), emp.getRole());
 				return;
 			}
 			attempts++;
-//			System.out.println("Invalid ID or Password. Try again.");
 		}
 	    System.out.println("Maximum login attempts exceeded. Exiting program.");
 	    logger.error("Exiting program. Max login attempts reached.");
 	    System.exit(0);
 	}
 
-//	private static Employee accessCheckFile(CrudImplementation ops, String empID, String pass) {
-//		for (Employee e : EmployeeListOps.findAll()) {
-//			if (e.getId().equals(empID) && BCrypt.checkpw(pass, e.getPassword())) {
-//				return e;
-//			}
-//		}
-//		return null;
-//	}
 	
-	private static Employee accessCheckFile(CrudImplementation ops, String empID, String pass) {
+	private static Employee accessCheckFile(CrudFileImplementation ops, String empID, String pass) {
 		for (Employee e : EmployeeListOps.findAll()) {
 			if (e.getId().equals(empID)) {
 				if(BCrypt.checkpw(pass, e.getPassword())) {
@@ -81,6 +106,9 @@ public class LoginAndAccess {
 		System.out.println("Inavlid Employee ID. Please try again");
 		return null;
 	}
+	
+	
+	//------------------------------------------------------------------------------------------------------
 
 	public static boolean authenticateInDB(Connection conn, Scanner sc) {
 		
@@ -117,7 +145,7 @@ public class LoginAndAccess {
 					continue;
 				}
 				List<String> roles = fetchRoles(conn, empId);
-				PasswordMethods.setLoginContext(empId, roles);
+				setLoginContext(empId, roles);
 
 				logger.info("Login successful. Employee ID: {}, Roles: {}", empId, String.join(", ", roles));
 				return true;

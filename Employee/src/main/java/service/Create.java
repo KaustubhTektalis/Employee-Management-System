@@ -15,12 +15,14 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import customExceptions.EmployeeNotFoundException;
+import customExceptions.IdFormatWrongException;
 //import customExceptions.IdFormatWrongException;
 import customExceptions.InvalidDataException;
-import dao.CrudImplementation;
-import dao.SaveEmployeesToFile;
+import dao.CrudDBImplementation;
+import dao.CrudFileImplementation;
 import enums.RoleChoice;
 import model.Employee;
+import util.SaveEmployeesToFile;
 import util.ValidateAddress;
 import util.ValidateDepartment;
 import util.ValidateMail;
@@ -29,7 +31,7 @@ import util.ValidateName;
 public class Create {
 	private static final Logger logger = LoggerFactory.getLogger(Create.class);
 
-	public static void handleAdd(CrudImplementation ops, Scanner sc, ObjectMapper mapper, File file) throws InvalidDataException{
+	public static void handleAdd(CrudFileImplementation ops, Scanner sc, ObjectMapper mapper, File file) throws InvalidDataException{
 
 		String name;
 		String mail;
@@ -117,10 +119,10 @@ public class Create {
 		}
 	}
 	
-	
+//---------------------------------------------------------------------------------------------------------------------------	
 
-	public static void handleAddDB(CrudImplementation ops, Scanner sc, Connection conn)
-			throws SQLException, EmployeeNotFoundException {
+	public static void handleAddDB(CrudDBImplementation dbops, Scanner sc, Connection conn)
+			throws SQLException, EmployeeNotFoundException, IdFormatWrongException {
 
 		String name;
 		String mail;
@@ -184,11 +186,11 @@ public class Create {
 
 		try {
 			String password = PasswordMethods.randomPasswordGenerator();
-			String empId = ops.addDB(name, mail, address, department, choice);
+			String empId = dbops.addDB(name, mail, address, department, choice);
 			PasswordTableDB.insertPassword(conn, empId, password);
 
 			System.out.println("New employee added!");
-			logger.info("New employee added: {}", Read.readOneDB(conn, empId));
+			logger.info("New employee added: {}", Read.handleReadOneDB(dbops, conn, empId));
 			System.out.println("Generated password for new employee " + empId + " is: " + password);
 			logger.info("Password generated for new employee {}", empId);
 

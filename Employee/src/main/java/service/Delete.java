@@ -11,14 +11,15 @@ import java.sql.Connection;
 
 import customExceptions.EmployeeNotFoundException;
 import customExceptions.IdFormatWrongException;
-import dao.CrudImplementation;
-import dao.SaveEmployeesToFile;
+import dao.CrudDBImplementation;
+import dao.CrudFileImplementation;
+import util.SaveEmployeesToFile;
 import util.ValidateId;
 
 public class Delete {
 	private static final Logger logger = LoggerFactory.getLogger(Delete.class);
 
-	public static void handleDelete(CrudImplementation ops, Scanner sc, ObjectMapper mapper, File file)
+	public static void handleDelete(CrudFileImplementation ops, Scanner sc, ObjectMapper mapper, File file)
 			throws EmployeeNotFoundException, IdFormatWrongException {
 
 		try {
@@ -26,7 +27,7 @@ public class Delete {
 			String id = sc.nextLine();
 			ValidateId.validateId(id);
 
-			if (id.equals(PasswordMethods.getLoggedInId())) {
+			if (id.equals(LoginAndAccess.getLoggedInId())) {
 				System.out.println("You Cannot delete your own records.");
 				return;
 			}
@@ -46,13 +47,15 @@ public class Delete {
 			logger.warn("Error deleting employee: {}", e.getMessage(), e);
 		}
 	}
+	
+	//----------------------------------------------------------------------------------------------------
 
-	public static void handleDeleteDB(CrudImplementation ops, Scanner sc, Connection conn) {
+	public static void handleDeleteDB(CrudDBImplementation dbops, Scanner sc, Connection conn) {
 		try {
 			System.out.print("Enter the Employee ID to delete: ");
 			String id = sc.nextLine();
 
-			if (id.equals(PasswordMethods.getLoggedInId())) {
+			if (id.equals(LoginAndAccess.getLoggedInId())) {
 				System.out.println("You Cannot delete your own records.");
 //				logger.warn("You Cannot delete your own records.");
 				return;
@@ -65,7 +68,7 @@ public class Delete {
 				System.out.println("Deletion cancelled.");
 				return;
 			}
-			ops.deleteDB(id);
+			dbops.deleteDB(id);
 //			System.out.println("Employee "+ id +" has been deleted successfully.");
 			logger.info("Employee {} has been deleted successfully.", id);
 
