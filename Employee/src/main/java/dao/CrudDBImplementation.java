@@ -241,7 +241,6 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 	}
 
 	public boolean addRoleDB(String id, String role) throws SQLException {
-
 		String empCheck = "SELECT active FROM employees WHERE empid = ?";
 		try (PreparedStatement ps = conn.prepareStatement(empCheck)) {
 			ps.setString(1, id);
@@ -253,20 +252,24 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 			}
 		}
 
-		String roleCheck = "SELECT 1 FROM roles WHERE empid = ? AND role = ? AND active = ?";
-		try (PreparedStatement ps = conn.prepareStatement(roleCheck)) {
-			ps.setString(1, id);
-			ps.setString(2, role);
-			ps.setBoolean(3, true);
+//		String roleCheck = "SELECT 1 FROM roles WHERE empid = ? AND role = ? AND active = ?";
+//		try (PreparedStatement ps = conn.prepareStatement(roleCheck)) {
+//			ps.setString(1, id);
+//			ps.setString(2, role);
+//			ps.setBoolean(3, true);
+//
+//			try (ResultSet rs = ps.executeQuery()) {
+//				if (rs.next()) {
+//					return false;
+//				}
+//			}
+//		}
 
-			try (ResultSet rs = ps.executeQuery()) {
-				if (rs.next()) {
-					return false;
-				}
-			}
-		}
-
-		String insert = "INSERT INTO roles (empid, role, active) VALUES (?, ?, ?)";
+		String insert = "INSERT INTO roles (empid, role, active) " +
+			    "VALUES (?, ?, ?) " +
+			    "ON CONFLICT (empid, role) " +
+			    "DO UPDATE SET active = TRUE " +
+			    "WHERE roles.active = FALSE;";
 		try (PreparedStatement ps = conn.prepareStatement(insert)) {
 			ps.setString(1, id);
 			ps.setString(2, role);

@@ -631,3 +631,7 @@ java.lang.NullPointerException: Cannot invoke "com.fasterxml.jackson.databind.Ob
 2026-02-16 02:14:10,332 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin, EMPLOYEE - 
 2026-02-16 02:15:00,858 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
 2026-02-16 02:15:18,295 - controller.AdminMenu - [showDBMenu] - (INFO) - Admin TT26001 logged out. - 
+2026-02-16 10:29:38,331 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-16 10:30:22,043 - service.Update - [handleUpdateMenuDB] - (ERROR) - Error updating data. - 
+2026-02-16 10:53:59,474 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
+2026-02-16 10:55:57,708 - service.LoginAndAccess - [authenticateInDB] - (INFO) - Login successful. Employee ID: TT26001, Roles: Admin - 
