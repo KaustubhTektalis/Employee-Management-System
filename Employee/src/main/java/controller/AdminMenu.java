@@ -7,8 +7,6 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.CrudDBImplementation;
@@ -106,7 +104,7 @@ public class AdminMenu {
 
 //	---------------------------------------------------------------------------------------------------------
 
-	public static void showDBMenu(CrudDBImplementation dbops, Scanner sc, Connection conn) {
+	public static void showDBMenu(CrudDBImplementation dbops, Scanner sc) {
 
 		AdminChoices choice = null;
 
@@ -134,29 +132,29 @@ public class AdminMenu {
 				switch (choice) {
 
 				case ADD:
-					Create.handleAddDB(dbops, sc, conn);
+					Create.handleAddDB(dbops, sc);
 					break;
 
 				case UPDATE:
-					Update.handleUpdateMenuDB(dbops, sc, conn);
+					Update.handleUpdateMenuDB(dbops, sc);
 					break;
 
 				case DELETE:
-					Delete.handleDeleteDB(dbops, sc, conn);
+					Delete.handleDeleteDB(dbops, sc);
 					break;
 
 				case SHOW_ALL:
 //					ops.showAll().forEach(System.out::println);
-					Read.handleReadAllDB(dbops, conn).forEach(System.out::println);
+					Read.handleReadAllDB(dbops).forEach(System.out::println);
 					break;
 
 				case MY_DETAILS:
 //					System.out.println(ops.showSelf(PasswordMethods.getLoggedInId()));
-					System.out.println(Read.handleReadOneDB(dbops, conn, LoginAndAccess.getLoggedInId()));
+					System.out.println(Read.handleReadOneDB(dbops, LoginAndAccess.getLoggedInId()));
 					break;
 
 				case INACTIVE_USERS:
-					Read.handleReadInactiveDB(dbops, conn).forEach(System.out::println);
+					Read.handleReadInactiveDB(dbops).forEach(System.out::println);
 					;
 					break;
 

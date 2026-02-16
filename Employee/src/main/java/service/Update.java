@@ -1,8 +1,6 @@
 package service;
 
 import java.io.File;
-
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
@@ -298,7 +296,7 @@ public final class Update {
 // -----------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
-	public static void handleUpdateMenuDB(CrudDBImplementation dbops, Scanner sc, Connection conn) throws SQLException{
+	public static void handleUpdateMenuDB(CrudDBImplementation dbops, Scanner sc) throws SQLException{
 		try {
 
 			String targetId = null;
@@ -352,12 +350,12 @@ public final class Update {
 				}
 
 				switch (ch) {
-				case 1 -> handleUpdateAllDB(dbops, sc, targetId, conn);
-				case 2 -> handleUpdateNameDB(dbops, sc, targetId, conn);
-				case 3 -> handleUpdateMailDB(dbops, sc, targetId, conn);
-				case 4 -> handleUpdateAddressDB(dbops, sc, targetId, conn);
-				case 5 -> handleUpdateDepartmentDB(dbops, sc, targetId, conn);
-				case 6 -> handleUpdateRoleDB(dbops, sc, targetId, conn);
+				case 1 -> handleUpdateAllDB(dbops, sc, targetId);
+				case 2 -> handleUpdateNameDB(dbops, sc, targetId);
+				case 3 -> handleUpdateMailDB(dbops, sc, targetId);
+				case 4 -> handleUpdateAddressDB(dbops, sc, targetId);
+				case 5 -> handleUpdateDepartmentDB(dbops, sc, targetId);
+				case 6 -> handleUpdateRoleDB(dbops, sc, targetId);
 				default -> System.out.println("Invalid choice selected for update: " + ch);
 				}
 				break;
@@ -369,23 +367,23 @@ public final class Update {
 		}
 	}
 
-	public static void handleUpdateAllDB(CrudDBImplementation dbops, Scanner sc, String id, Connection conn)
+	public static void handleUpdateAllDB(CrudDBImplementation dbops, Scanner sc, String id)
 			throws InvalidDataException, EmployeeNotFoundException, IdFormatWrongException, SQLException {
-		handleUpdateNameDB(dbops, sc, id, conn);
-		handleUpdateMailDB(dbops, sc, id, conn);
-		handleUpdateAddressDB(dbops, sc, id, conn);
-		handleUpdateDepartmentDB(dbops, sc, id, conn);
-		handleUpdateRoleDB(dbops, sc, id, conn);
+		handleUpdateNameDB(dbops, sc, id);
+		handleUpdateMailDB(dbops, sc, id);
+		handleUpdateAddressDB(dbops, sc, id);
+		handleUpdateDepartmentDB(dbops, sc, id);
+		handleUpdateRoleDB(dbops, sc, id);
 	}
 
-	public static void handleUpdateNameDB(CrudDBImplementation dbops, Scanner sc, String id, Connection conn)
+	public static void handleUpdateNameDB(CrudDBImplementation dbops, Scanner sc, String id)
 			throws InvalidDataException, EmployeeNotFoundException, IdFormatWrongException, SQLException {
 		System.out.print("New name: ");
 		String name = sc.nextLine();
 		ValidateName.validateName(name);
 		boolean updated = dbops.updateNameDB(id, name);
 		if (updated) {
-			Read.handleReadOneDB(dbops, conn, id);
+			Read.handleReadOneDB(dbops, id);
 			logger.info("Updated name for employee ID {}: {}", id, name);
 			System.out.println("Updated name for employee ID " + id + " : " + name);
 		} else {
@@ -395,14 +393,14 @@ public final class Update {
 		return;
 	}
 
-	public static void handleUpdateMailDB(CrudDBImplementation dbops, Scanner sc, String id, Connection conn)
+	public static void handleUpdateMailDB(CrudDBImplementation dbops, Scanner sc, String id)
 			throws InvalidDataException, EmployeeNotFoundException, IdFormatWrongException, SQLException {
 		System.out.print("New mail: ");
 		String mail = sc.nextLine();
 		ValidateMail.validateMail(mail);
 		boolean updated = dbops.updateMailDB(id, mail);
 		if (updated) {
-			Read.handleReadOneDB(dbops, conn, id);
+			Read.handleReadOneDB(dbops, id);
 			logger.info("Updated mail for employee ID {}: {}", id, mail);
 			System.out.println("Updated mail for employee ID " + id + " : " + mail);
 		} else {
@@ -412,14 +410,14 @@ public final class Update {
 		return;
 	}
 
-	public static void handleUpdateAddressDB(CrudDBImplementation dbops, Scanner sc, String id, Connection conn)
+	public static void handleUpdateAddressDB(CrudDBImplementation dbops, Scanner sc, String id)
 			throws InvalidDataException, EmployeeNotFoundException, IdFormatWrongException, SQLException {
 		System.out.print("New address: ");
 		String address = sc.nextLine();
 		ValidateAddress.validateAddress(address);
 		boolean updated = dbops.updateAddressDB(id, address);
 		if (updated) {
-			Read.handleReadOneDB(dbops, conn, id);
+			Read.handleReadOneDB(dbops, id);
 			logger.info("Updated address for employee ID {}: {}", id, address);
 			System.out.println("Updated address for employee ID " + id + " : " + address);
 		} else {
@@ -429,14 +427,14 @@ public final class Update {
 		return;
 	}
 
-	public static void handleUpdateDepartmentDB(CrudDBImplementation dbops, Scanner sc, String id, Connection conn)
+	public static void handleUpdateDepartmentDB(CrudDBImplementation dbops, Scanner sc, String id)
 			throws InvalidDataException, EmployeeNotFoundException, IdFormatWrongException, SQLException {
 		System.out.print("New department: ");
 		String department = sc.nextLine();
 		ValidateDepartment.validateDepartment(department);
 		boolean updated = dbops.updateDepartmentDB(id, department);
 		if (updated) {
-			Read.handleReadOneDB(dbops, conn, id);
+			Read.handleReadOneDB(dbops, id);
 			logger.info("Updated department for employee ID {}: {}", id, department);
 			System.out.println("Updated department for employee ID " + id + " : " + department);
 		} else {
@@ -446,7 +444,7 @@ public final class Update {
 		return;
 	}
 
-	public static void handleUpdateRoleDB(CrudDBImplementation dbops, Scanner sc, String id, Connection conn)
+	public static void handleUpdateRoleDB(CrudDBImplementation dbops, Scanner sc, String id)
 			throws SQLException, EmployeeNotFoundException, IdFormatWrongException {
 
 		System.out.println("Enter 1 to Add role");
@@ -478,7 +476,7 @@ public final class Update {
 				boolean added = dbops.addRoleDB(id, role.name());
 
 				if (added) {
-					Read.handleReadOneDB(dbops, conn, id);
+					Read.handleReadOneDB(dbops, id);
 					System.out.println("Added role " + role + " successfully.");
 				} else {
 					System.out.println("Cannot add role (inactive employee or duplicate role).");
@@ -491,7 +489,7 @@ public final class Update {
 
 		else if (ch == 2) {
 
-			List<String> existingRoles = LoginAndAccess.fetchRoles(conn,id);
+			List<String> existingRoles = LoginAndAccess.fetchRoles(id);
 
 			if (existingRoles.isEmpty()) {
 				System.out.println("Employee has no roles to revoke.");
@@ -508,7 +506,7 @@ public final class Update {
 				boolean revoked = dbops.revokeRoleDB(id, role.name());
 
 				if (revoked) {
-					Read.handleReadOneDB(dbops, conn, id);
+					Read.handleReadOneDB(dbops, id);
 					System.out.println("Revoked role " + role + " successfully.");
 				} else {
 					System.out.println("Role not active or cannot revoke.");
@@ -528,7 +526,7 @@ public final class Update {
 		}
 	}
 
-	public final static void handleUpdateMenuForEmployeeDB(CrudDBImplementation dbops, Scanner sc, Connection conn)
+	public final static void handleUpdateMenuForEmployeeDB(CrudDBImplementation dbops, Scanner sc)
 			throws InvalidDataException {
 
 		System.out.println("Enter 1 to update your Mail ID");
@@ -543,11 +541,11 @@ public final class Update {
 		try {
 			switch (ch) {
 			case 1:
-				Update.handleUpdateMailDB(dbops, sc, loggedInID, conn);
+				Update.handleUpdateMailDB(dbops, sc, loggedInID);
 				break;
 
 			case 2:
-				Update.handleUpdateAddressDB(dbops, sc, loggedInID, conn);
+				Update.handleUpdateAddressDB(dbops, sc, loggedInID);
 				break;
 
 			default:

@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.sql.Connection;
 
 import dao.CrudDBImplementation;
 import dao.CrudFileImplementation;
@@ -76,7 +75,7 @@ public class EmployeeMenu {
 		} while (choice != EmployeeChoices.EXIT);
 	}
 
-	public static void showDBMenu(CrudDBImplementation dbops, Scanner sc, Connection conn) {
+	public static void showDBMenu(CrudDBImplementation dbops, Scanner sc) {
 
 		EmployeeChoices choice = null;
 
@@ -98,11 +97,11 @@ public class EmployeeMenu {
 				switch (choice) {
 
 				case UPDATE:
-					Update.handleUpdateMenuForEmployeeDB(dbops, sc, conn);
+					Update.handleUpdateMenuForEmployeeDB(dbops, sc);
 					break;
 
 				case MY_DETAILS:
-					System.out.println(Read.handleReadOneDB(dbops, conn, LoginAndAccess.getLoggedInId()));
+					System.out.println(Read.handleReadOneDB(dbops, LoginAndAccess.getLoggedInId()));
 					break;
 
 				case CHANGE_PASSWORD:

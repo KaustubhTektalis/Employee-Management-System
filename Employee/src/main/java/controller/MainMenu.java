@@ -2,8 +2,6 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -97,38 +95,31 @@ public class MainMenu {
 	}
 
 	public static void DBMenu() {
-
-		
-		MakeConnection db = new MakeConnection();
-		Connection conn = null;
+		CrudDBImplementation dbops = new CrudDBImplementation();
 
 		
 		
 		// POSTGRESQL --> posthost, postdbname, postuser, postpassword, postssl
 		//SUPABASE --> supahost, supadbname, supauser, supapassword, supassl
-		try {
-			conn = db.connect_to_db(System.getenv("posthost"), System.getenv("postdbname"), System.getenv("postuser"), System.getenv("postpassword"), Boolean.parseBoolean(System.getenv("postssl")));
-		} catch (SQLException e) {
-			System.out.println("Database connection failed: " + e.getMessage());
-			return;
-		}
-
-		if (conn == null) {
-			System.out.println("Database connection failed.");
-			return;
-		}
-		CrudDBImplementation dbops = new CrudDBImplementation(conn);
+		
+		MakeConnection.init(
+		        System.getenv("posthost"),
+		        System.getenv("postdbname"),
+		        System.getenv("postuser"),
+		        System.getenv("postpassword"),
+		        Boolean.parseBoolean(System.getenv("postssl"))
+		    );
 
 		try {
 
-			LoginAndAccess.authenticateInDB(conn, sc);
+			LoginAndAccess.authenticateInDB(sc);
 
 			if (LoginAndAccess.hasRole("Admin")) {
-				AdminMenu.showDBMenu(dbops, sc, conn);
+				AdminMenu.showDBMenu(dbops, sc);
 			} else if (LoginAndAccess.hasRole("Manager")) {
-				ManagerMenu.showDBMenu(dbops, sc, conn);
+				ManagerMenu.showDBMenu(dbops, sc);
 			} else {
-				EmployeeMenu.showDBMenu(dbops, sc, conn);
+				EmployeeMenu.showDBMenu(dbops, sc);
 			}
 
 		} catch (MaxLoginAttemptsExceededException e) {

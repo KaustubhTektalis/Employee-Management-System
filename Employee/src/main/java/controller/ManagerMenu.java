@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.File;
-import java.sql.Connection;
 import java.util.Scanner;
 
 import org.slf4j.Logger;
@@ -82,7 +81,7 @@ public class ManagerMenu {
 
 //	------------------------------------------------------------------------------------------------
 
-	public static void showDBMenu(CrudDBImplementation dbops, Scanner sc, Connection conn) {
+	public static void showDBMenu(CrudDBImplementation dbops, Scanner sc) {
 
 		ManagerChoices choice = null;
 
@@ -104,15 +103,15 @@ public class ManagerMenu {
 				switch (choice) {
 
 				case UPDATE:
-					Update.handleUpdateMenuDB(dbops, sc, conn);
+					Update.handleUpdateMenuDB(dbops, sc);
 					break;
 
 				case SHOW_ALL:
-					Read.handleReadAllDB(dbops, conn).forEach(System.out::println);
+					Read.handleReadAllDB(dbops).forEach(System.out::println);
 					break;
 
 				case MY_DETAILS:
-					System.out.println(Read.handleReadOneDB(dbops, conn, LoginAndAccess.getLoggedInId()));
+					System.out.println(Read.handleReadOneDB(dbops, LoginAndAccess.getLoggedInId()));
 					break;
 
 				case CHANGE_PASSWORD:

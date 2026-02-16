@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.sql.Connection;
 
 import customExceptions.EmployeeNotFoundException;
 import customExceptions.IdFormatWrongException;
@@ -50,7 +49,7 @@ public class Delete {
 
 	// ----------------------------------------------------------------------------------------------------
 
-	public static void handleDeleteDB(CrudDBImplementation dbops, Scanner sc, Connection conn) {
+	public static void handleDeleteDB(CrudDBImplementation dbops, Scanner sc) {
 		try {
 			System.out.print("Enter the Employee ID to delete: ");
 			String id = sc.nextLine();

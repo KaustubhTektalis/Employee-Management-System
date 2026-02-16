@@ -3,26 +3,49 @@ package util;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 public class MakeConnection {
 
-	public Connection connect_to_db(String host, String dbname, String user, String pass, boolean ssl) throws SQLException {
-		Connection conn = null;
-		try {
-			Class.forName("org.postgresql.Driver");
-			
-			String url = "jdbc:postgresql://" + host + ":5432/" + dbname;
-			
-			 if (ssl) {
-		            url += "?sslmode=require";
-		        }
+    private static HikariDataSource dataSource;
 
-			conn = java.sql.DriverManager.getConnection(url, user, pass);
+    private MakeConnection() {}
+    
+    public static void init(String host, String dbName, String user, String pass, boolean ssl) {
+        if (dataSource != null && !dataSource.isClosed()) {
+        	return;
+        }
+        
+        HikariConfig config = new HikariConfig();
+        String url = "jdbc:postgresql://" + host + ":5432/" + dbName;
+		 if (ssl) {
+	            url += "?sslmode=require";
+	        }
+		 config.setJdbcUrl(url);
+	        config.setUsername(user);
+	        config.setPassword(pass);
 
-			System.out.println("Connection successful");
+	        config.setMaximumPoolSize(10);     // max connections in pool
+	        config.setMinimumIdle(2);          // minimum idle connections
+	        config.setIdleTimeout(600000);     // 10 minutes
+	        config.setMaxLifetime(1800000);    // 30 minutes
+	        config.setConnectionTimeout(30000); // 30 seconds
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return conn;
-	}
+	        dataSource = new HikariDataSource(config);
+
+	        System.out.println("Connection pool initialized successfully");
+	    }
+    public static Connection getConnection() throws SQLException {
+        if (dataSource == null) {
+            throw new SQLException("Connection pool not initialized. Call init() first.");
+        }
+        return dataSource.getConnection();
+    }
+    public static void closePool() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+            System.out.println("Connection pool closed");
+        }
+    }
 }

@@ -1,8 +1,6 @@
 package service;
 
 import java.io.File;
-//import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -121,7 +119,7 @@ public class Create {
 
 //---------------------------------------------------------------------------------------------------------------------------	
 
-	public static void handleAddDB(CrudDBImplementation dbops, Scanner sc, Connection conn)
+	public static void handleAddDB(CrudDBImplementation dbops, Scanner sc)
 			throws SQLException, EmployeeNotFoundException, IdFormatWrongException {
 
 		String name;
@@ -187,10 +185,10 @@ public class Create {
 		try {
 			String password = PasswordMethods.randomPasswordGenerator();
 			String empId = dbops.addDB(name, mail, address, department, choice);
-			PasswordTableDB.insertPassword(conn, empId, password);
+			PasswordTableDB.insertPassword(empId, password);
 
 			System.out.println("New employee added!");
-			logger.info("New employee added: {}", Read.handleReadOneDB(dbops, conn, empId));
+			logger.info("New employee added: {}", Read.handleReadOneDB(dbops,empId));
 			System.out.println("Generated password for new employee " + empId + " is: " + password);
 			logger.info("Password generated for new employee {}", empId);
 

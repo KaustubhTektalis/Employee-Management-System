@@ -13,19 +13,22 @@ import enums.RoleChoice;
 import model.Employee;
 import service.PasswordMethods;
 import service.RoleTableDB;
+import util.MakeConnection;
 
 public class CrudDBImplementation implements EmployeeDaoDB {
 
-	private Connection conn;
+//	private Connection conn;
 
-	public CrudDBImplementation(Connection conn) {
-		this.conn = conn;
+	public CrudDBImplementation() {
 	}
+//	public CrudDBImplementation(Connection conn) {
+//		this.conn = conn;
+//	}
 
 	public boolean employeeExistsDB(String id) throws SQLException {
 		String query = "SELECT 1 FROM employees WHERE empid = ? AND active IS TRUE";
 
-		try (PreparedStatement ps = conn.prepareStatement(query)) {
+		try (Connection conn = MakeConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 			ps.setString(1, id);
 			try (ResultSet rs = ps.executeQuery()) {
 				return rs.next();
@@ -38,29 +41,39 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 	public String addDB(String name, String mail, String address, String department, RoleChoice role)
 			throws SQLException {
 		String generatedEmpId = null;
-		conn.setAutoCommit(false);
+		Connection conn = null;
+//		conn.setAutoCommit(false);
+		try {
+			conn = MakeConnection.getConnection();
+			conn.setAutoCommit(false);
 
-		String query = "INSERT INTO employees (empName, empMail, empAddress, empDepartment) " + "VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO employees (empName, empMail, empAddress, empDepartment) "
+					+ "VALUES (?, ?, ?, ?)";
 
-		try (PreparedStatement ps = conn.prepareStatement(query, new String[] { "empid" })) {
-			ps.setString(1, name);
-			ps.setString(2, mail);
-			ps.setString(3, address);
-			ps.setString(4, department);
-			ps.executeUpdate();
-			try (ResultSet rs = ps.getGeneratedKeys()) {
-				if (rs.next()) {
-					generatedEmpId = rs.getString("empid");
+			try (PreparedStatement ps = conn.prepareStatement(query, new String[] { "empid" })) {
+				ps.setString(1, name);
+				ps.setString(2, mail);
+				ps.setString(3, address);
+				ps.setString(4, department);
+				ps.executeUpdate();
+				try (ResultSet rs = ps.getGeneratedKeys()) {
+					if (rs.next()) {
+						generatedEmpId = rs.getString("empid");
+					}
 				}
 			}
 			RoleTableDB.insertRole(conn, generatedEmpId, role);
 			conn.commit();
 			return generatedEmpId;
 		} catch (SQLException e) {
-			conn.rollback();
+			if (conn != null)
+				conn.rollback();
 			throw e;
 		} finally {
-			conn.setAutoCommit(true);
+			if (conn != null) {
+				conn.setAutoCommit(true);
+				conn.close();
+			}
 		}
 
 	}
@@ -72,7 +85,9 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 				    FROM employees WHERE active IS TRUE
 				""";
 
-		try (PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+		try (Connection conn = MakeConnection.getConnection();
+				PreparedStatement ps = conn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery()) {
 
 			while (rs.next()) {
 				list.add(new Employee(rs.getString("empid"), rs.getString("empname"), rs.getString("empmail"),
@@ -94,7 +109,7 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 				    WHERE empid = ? AND active IS TRUE
 				""";
 
-		try (PreparedStatement ps = conn.prepareStatement(query)) {
+		try (Connection conn = MakeConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 			ps.setString(1, id);
 
 			try (ResultSet rs = ps.executeQuery()) {
@@ -109,23 +124,6 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 			}
 		}
 	}
-	
-//	public List<String> readRolesDB(String id) throws SQLException {
-//		List<String> roles = new ArrayList<>();
-//
-//		String roleQuery = "SELECT role FROM roles WHERE empid = ? AND active IS TRUE";
-//
-//		try (PreparedStatement rolePs = conn.prepareStatement(roleQuery)) {
-//			rolePs.setString(1, id);
-//
-//			try (ResultSet roleRs = rolePs.executeQuery()) {
-//				while (roleRs.next()) {
-//					roles.add(roleRs.getString("role"));
-//				}
-//			}
-//		}
-//		return roles;
-//	}
 
 	public List<Employee> readAllInactiveDB() throws EmployeeNotFoundException, IdFormatWrongException, SQLException {
 		List<Employee> list = new ArrayList<>();
@@ -134,7 +132,9 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 				    FROM employees WHERE active IS FALSE;
 				""";
 
-		try (PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+		try (Connection conn = MakeConnection.getConnection();
+				PreparedStatement ps = conn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery()) {
 
 			while (rs.next()) {
 				list.add(new Employee(rs.getString("empid"), rs.getString("empname"), rs.getString("empmail"),
@@ -151,7 +151,8 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 
 	public boolean deleteDB(String id) throws SQLException {
 		String deleteEmployee = "UPDATE employees SET active = FALSE WHERE empid = ? AND active= TRUE";
-		try (PreparedStatement psEmp = conn.prepareStatement(deleteEmployee)) {
+		try (Connection conn = MakeConnection.getConnection();
+				PreparedStatement psEmp = conn.prepareStatement(deleteEmployee)) {
 			psEmp.setString(1, id);
 
 			int rowsDeleted = psEmp.executeUpdate();
@@ -164,7 +165,7 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 	public boolean updateNameDB(String id, String name) throws SQLException {
 		String query = "UPDATE employees SET empName = ? WHERE empId = ? AND active IS TRUE";
 
-		try (PreparedStatement ps = conn.prepareStatement(query)) {
+		try (Connection conn = MakeConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 			ps.setString(1, name);
 			ps.setString(2, id);
 
@@ -179,7 +180,7 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 	public boolean updateMailDB(String id, String mail) throws SQLException {
 		String query = "UPDATE employees SET empMail = ? WHERE empId = ? AND active IS TRUE";
 
-		try (PreparedStatement ps = conn.prepareStatement(query)) {
+		try (Connection conn = MakeConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 			ps.setString(1, mail);
 			ps.setString(2, id);
 
@@ -195,7 +196,7 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 	public boolean updateAddressDB(String id, String address) throws SQLException {
 		String query = "UPDATE employees SET empAddress = ? WHERE empId = ? AND active IS TRUE";
 
-		try (PreparedStatement ps = conn.prepareStatement(query)) {
+		try (Connection conn = MakeConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 			ps.setString(1, address);
 			ps.setString(2, id);
 
@@ -211,7 +212,7 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 	public boolean updateDepartmentDB(String id, String department) throws SQLException {
 		String query = "UPDATE employees SET empDepartment = ? WHERE empId = ? AND active IS TRUE";
 
-		try (PreparedStatement ps = conn.prepareStatement(query)) {
+		try (Connection conn = MakeConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 			ps.setString(1, department);
 			ps.setString(2, id);
 			int rowsUpdated = ps.executeUpdate();
@@ -228,7 +229,7 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 		String query = "UPDATE passwords p SET empPassword = ? FROM employees e "
 				+ "WHERE p.empid = e.empid AND p.empid =? AND e.active = TRUE";
 
-		try (PreparedStatement ps = conn.prepareStatement(query)) {
+		try (Connection conn = MakeConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 			ps.setString(1, hashedPassword);
 			ps.setString(2, id);
 
@@ -242,7 +243,7 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 
 	public boolean addRoleDB(String id, String role) throws SQLException {
 		String empCheck = "SELECT active FROM employees WHERE empid = ?";
-		try (PreparedStatement ps = conn.prepareStatement(empCheck)) {
+		try (Connection conn = MakeConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(empCheck)) {
 			ps.setString(1, id);
 
 			try (ResultSet rs = ps.executeQuery()) {
@@ -265,12 +266,9 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 //			}
 //		}
 
-		String insert = "INSERT INTO roles (empid, role, active) " +
-			    "VALUES (?, ?, ?) " +
-			    "ON CONFLICT (empid, role) " +
-			    "DO UPDATE SET active = TRUE " +
-			    "WHERE roles.active = FALSE;";
-		try (PreparedStatement ps = conn.prepareStatement(insert)) {
+		String insert = "INSERT INTO roles (empid, role, active) " + "VALUES (?, ?, ?) " + "ON CONFLICT (empid, role) "
+				+ "DO UPDATE SET active = TRUE " + "WHERE roles.active = FALSE;";
+		try (Connection conn = MakeConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(insert)) {
 			ps.setString(1, id);
 			ps.setString(2, role);
 			ps.setBoolean(3, true);
@@ -283,7 +281,7 @@ public class CrudDBImplementation implements EmployeeDaoDB {
 
 		String update = "UPDATE roles SET active = ? " + "WHERE empid = ? AND role = ? AND active = ?";
 
-		try (PreparedStatement ps = conn.prepareStatement(update)) {
+		try (Connection conn = MakeConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(update)) {
 			ps.setBoolean(1, false);
 			ps.setString(2, id);
 			ps.setString(3, role);

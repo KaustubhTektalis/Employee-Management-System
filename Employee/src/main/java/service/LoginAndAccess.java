@@ -20,6 +20,7 @@ import dao.CrudFileImplementation;
 //import dao.EmployeeListOps;
 //import dao.CrudFileImplementation;
 import model.Employee;
+import util.MakeConnection;
 
 public class LoginAndAccess {
 	private static final Logger logger = LoggerFactory.getLogger(LoginAndAccess.class);
@@ -28,7 +29,7 @@ public class LoginAndAccess {
 
 	private LoginAndAccess() {
 	}
-	
+
 	// -------------------------------------------------------------------------------------------------------
 
 	public static void setLoginContext(String empID, List<String> roles) {
@@ -90,10 +91,9 @@ public class LoginAndAccess {
 		logger.error("Maximum login attempts exceeded.");
 		throw new MaxLoginAttemptsExceededException("Maximum login attempts exceeded.");
 	}
-	
 
 	private static Employee loginCheckFile(CrudFileImplementation ops, String empID, String pass) {
-		
+
 		for (Employee e : CrudFileImplementation.findAll()) {
 			if (e.getId().equals(empID)) {
 				if (BCrypt.checkpw(pass, e.getPassword())) {
@@ -112,7 +112,7 @@ public class LoginAndAccess {
 
 	// ------------------------------------------------------------------------------------------------------
 
-	public static boolean authenticateInDB(Connection conn, Scanner sc) {
+	public static boolean authenticateInDB( Scanner sc) {
 
 		int attempts = 0;
 		final int max_attempts = 3;
@@ -124,9 +124,10 @@ public class LoginAndAccess {
 			System.out.print("Enter Password: ");
 			String password = sc.nextLine();
 
-			try {
 				String passQuery = "SELECT p.empPassword FROM passwords p JOIN employees e ON p.empid=e.empid WHERE p.empId = ? AND e.active IS TRUE";
-				PreparedStatement ps = conn.prepareStatement(passQuery);
+				
+				try(Connection conn = MakeConnection.getConnection();
+						PreparedStatement ps = conn.prepareStatement(passQuery);){
 				ps.setString(1, empId);
 
 				ResultSet rs = ps.executeQuery();
@@ -146,7 +147,7 @@ public class LoginAndAccess {
 					logger.warn("Invalid password. Please try again.");
 					continue;
 				}
-				List<String> roles = fetchRoles(conn, empId);
+				List<String> roles = fetchRoles(empId);
 				setLoginContext(empId, roles);
 
 				logger.info("Login successful. Employee ID: {}, Roles: {}", empId, String.join(", ", roles));
@@ -162,13 +163,13 @@ public class LoginAndAccess {
 		throw new MaxLoginAttemptsExceededException("Maximum login attempts exceeded.");
 	}
 
-	
-	static List<String> fetchRoles(Connection conn, String empId) throws SQLException {
+	static List<String> fetchRoles( String empId) throws SQLException {
 
 		List<String> roles = new ArrayList<>();
 
 		String roleQuery = "SELECT role FROM roles WHERE empid = ? AND active IS TRUE";
-		PreparedStatement ps = conn.prepareStatement(roleQuery);
+		try(Connection conn= MakeConnection.getConnection();
+			PreparedStatement ps = conn.prepareStatement(roleQuery);){
 		ps.setString(1, empId);
 
 		ResultSet rs = ps.executeQuery();
@@ -177,5 +178,6 @@ public class LoginAndAccess {
 			roles.add(rs.getString("role"));
 		}
 		return roles;
+		}
 	}
 }

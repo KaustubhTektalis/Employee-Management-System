@@ -1,6 +1,5 @@
 package service;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +41,7 @@ public class Read {
 
 //--------------------------------------------------------------------------------------------------------------------------
 
-	public static List<Employee> handleReadAllDB(CrudDBImplementation dbops, Connection conn)
+	public static List<Employee> handleReadAllDB(CrudDBImplementation dbops)
 			throws EmployeeNotFoundException, IdFormatWrongException, SQLException {
 		List<Employee> list = dbops.readAllDB();
 		if (list == null || list.isEmpty()) {
@@ -51,7 +50,7 @@ public class Read {
 		return list;
 	}
 
-	public static Employee handleReadOneDB(CrudDBImplementation dbops, Connection conn, String id)
+	public static Employee handleReadOneDB(CrudDBImplementation dbops, String id)
 			throws EmployeeNotFoundException, IdFormatWrongException, SQLException {
 		Employee emp = dbops.readOneDB(id);
 		if (emp == null) {
@@ -60,7 +59,7 @@ public class Read {
 		return emp;
 	}
 
-	public static List<Employee> handleReadInactiveDB(CrudDBImplementation dbops, Connection conn)
+	public static List<Employee> handleReadInactiveDB(CrudDBImplementation dbops)
 			throws EmployeeNotFoundException, IdFormatWrongException, SQLException {
 		List<Employee> list = dbops.readAllInactiveDB();
 		if (list == null || list.isEmpty()) {
