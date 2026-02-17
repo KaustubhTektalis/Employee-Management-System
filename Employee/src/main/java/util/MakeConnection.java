@@ -25,7 +25,6 @@ public class MakeConnection {
 		 config.setJdbcUrl(url);
 	        config.setUsername(user);
 	        config.setPassword(pass);
-
 	        config.setMaximumPoolSize(10);     // max connections in pool
 	        config.setMinimumIdle(2);          // minimum idle connections
 	        config.setIdleTimeout(600000);     // 10 minutes

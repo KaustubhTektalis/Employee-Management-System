@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,42 +19,41 @@ import dao.CrudFileImplementation;
 //import dao.EmployeeListOps;
 //import dao.CrudFileImplementation;
 import model.Employee;
+import util.LoginContext;
 import util.MakeConnection;
 
 public class LoginAndAccess {
 	private static final Logger logger = LoggerFactory.getLogger(LoginAndAccess.class);
-	private static String loggedInID;
-	private static List<String> loggedInRoles = new ArrayList<>();
-
 	private LoginAndAccess() {
 	}
-
+	
 	// -------------------------------------------------------------------------------------------------------
 
+	private static final ThreadLocal<LoginContext> context = new ThreadLocal<>(); // loggedin user per thread.
+
 	public static void setLoginContext(String empID, List<String> roles) {
-		loggedInID = empID;
-		loggedInRoles.clear();
-		if (roles != null) {
-			loggedInRoles.addAll(roles);
-		}
+		context.set(new LoginContext(empID, roles));
 	}
 
 	public static String getLoggedInId() {
-		return loggedInID;
+		LoginContext emp = context.get(); 
+		return emp == null ? null : emp.getEmpID();
 	}
 
 	public static List<String> getLoggedInRoles() {
-		return Collections.unmodifiableList(loggedInRoles);
+		LoginContext emp = context.get();
+		return emp == null ? List.of() : emp.getRoles();
 	}
 
 	public static boolean hasRole(String role) {
-		return loggedInRoles.stream().anyMatch(r -> r.equalsIgnoreCase(role));
+		LoginContext emp = context.get();
+		return emp != null && emp.hasRole(role);
 	}
 
 	public static void clearLoginContext() {
-		loggedInID = null;
-		loggedInRoles.clear();
+		context.remove();
 	}
+	
 	// ----------------------------------------------------------------------------------------------------
 
 	public static void authenticateInFile(CrudFileImplementation ops, Scanner sc) {
@@ -112,7 +110,7 @@ public class LoginAndAccess {
 
 	// ------------------------------------------------------------------------------------------------------
 
-	public static boolean authenticateInDB( Scanner sc) {
+	public static boolean authenticateInDB(Scanner sc) {
 
 		int attempts = 0;
 		final int max_attempts = 3;
@@ -124,10 +122,10 @@ public class LoginAndAccess {
 			System.out.print("Enter Password: ");
 			String password = sc.nextLine();
 
-				String passQuery = "SELECT p.empPassword FROM passwords p JOIN employees e ON p.empid=e.empid WHERE p.empId = ? AND e.active IS TRUE";
-				
-				try(Connection conn = MakeConnection.getConnection();
-						PreparedStatement ps = conn.prepareStatement(passQuery);){
+			String passQuery = "SELECT p.empPassword FROM passwords p JOIN employees e ON p.empid=e.empid WHERE p.empId = ? AND e.active IS TRUE";
+
+			try (Connection conn = MakeConnection.getConnection();
+					PreparedStatement ps = conn.prepareStatement(passQuery);) {
 				ps.setString(1, empId);
 
 				ResultSet rs = ps.executeQuery();
@@ -163,21 +161,21 @@ public class LoginAndAccess {
 		throw new MaxLoginAttemptsExceededException("Maximum login attempts exceeded.");
 	}
 
-	static List<String> fetchRoles( String empId) throws SQLException {
+	static List<String> fetchRoles(String empId) throws SQLException {
 
 		List<String> roles = new ArrayList<>();
 
 		String roleQuery = "SELECT role FROM roles WHERE empid = ? AND active IS TRUE";
-		try(Connection conn= MakeConnection.getConnection();
-			PreparedStatement ps = conn.prepareStatement(roleQuery);){
-		ps.setString(1, empId);
+		try (Connection conn = MakeConnection.getConnection();
+				PreparedStatement ps = conn.prepareStatement(roleQuery);) {
+			ps.setString(1, empId);
 
-		ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 
-		while (rs.next()) {
-			roles.add(rs.getString("role"));
-		}
-		return roles;
+			while (rs.next()) {
+				roles.add(rs.getString("role"));
+			}
+			return roles;
 		}
 	}
 }
